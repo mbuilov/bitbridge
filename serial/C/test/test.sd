@@ -1,0 +1,378 @@
+#################################################################################
+# bitbridge - another serialization/rpc mechanism
+# Copyright (C) 2008-2017 Michael M. Builov, https://github.com/mbuilov/bitbridge
+# Licensed under GPL version 3 or any later version, see COPYING
+#################################################################################
+
+#comment
+s1:#comment
+    bit b
+s2:
+#spaces
+    bit*b
+s3:
+#tabs
+	bit[]b
+#one line
+s4:byte b
+s5: byte *b
+s6: byte[] b
+s7: short s
+s8: short *s
+s9: short[] s
+s10: int i
+s11: int *i
+s12: int[] i
+s13: long l
+s14: long *l
+s15: long[] l
+s16: float f
+s17: float *f
+s18: float[] f
+s19: double d
+s20: double *d
+s21: double[] d
+s22: str s
+s23: str *s
+s24: str[] s
+
+x1: bit[2]b
+x2: bit[200]b
+x3: byte[1]t
+x4: byte[2]t
+x5: short[1]t
+x6: short[2]t
+x7: int[1]t
+x8: int[2]t
+x9: long[1]t
+x10: long[2]t
+x11: float[1]t
+x12: float[2]t
+x13: double[1]t
+x14: double[2]t
+x15: str[1]t
+x16: str[2]t
+
+ps7: pshort s
+ps8: pshort *s
+ps9: pshort[] s
+ps10: pint i
+ps11: pint *i
+ps12: pint[] i
+ps13: plong l
+ps14: plong *l
+ps15: plong[] l
+ps22: pstr s
+ps23: pstr *s
+ps24: pstr[] s
+
+px5: pshort[1]t
+px6: pshort[2]t
+px7: pint[1]t
+px8: pint[2]t
+px9: plong[1]t
+px10: plong[2]t
+px15: pstr[1]t
+px16: pstr[2]t
+
+pps7: ppshort s
+pps8: ppshort *s
+pps9: ppshort[] s
+pps10: ppint i
+pps11: ppint *i
+pps12: ppint[] i
+pps13: pplong l
+pps14: pplong *l
+pps15: pplong[] l
+
+ppx5: ppshort[1]t
+ppx6: ppshort[2]t
+ppx7: ppint[1]t
+ppx8: ppint[2]t
+ppx9: pplong[1]t
+ppx10: pplong[2]t
+
+s25: bit b
+	int *i
+	str s
+s26:
+	byte b
+	double *d
+	s27[] a
+s27:
+	bit[] b
+	s25 s
+	s26 s2
+	s27 *s3
+	s27[] s4
+s28:
+	s26 s1
+	s27 s2
+	s28 *s3
+	s26[] s4
+	s26[1] s41
+	s26[2] s42
+	s27 *s5
+	s25[] s6
+	s25[10] s610
+	s27[] s7
+	s28 *s8
+s29:
+	s28 s
+	s29 *next
+s30:
+	int i
+	long l
+s31:
+	byte b
+	s30[] a
+	s30[1] c
+	s30[2] d
+s32:
+	byte c
+s33:
+	int u
+s34:
+	int u1
+	int u2
+	s33 ss1
+	int u3
+s35: 
+  	float f 
+	s32[] a1
+	s33[] a2
+	s34[] a3
+
+s36:
+	int i
+	byte b
+	bit *m
+	float f
+	double d
+	str r
+	short s
+	bit n
+	byte x
+	byte s36_
+
+s37:
+	s36[] a
+	s36 *c
+	s36 *p
+	s35 x
+
+s39:
+	int b
+	int c
+s40:
+	s33 s1
+	int d
+	s39 s2
+
+s41:
+	s42[] x
+	s49[] u
+	s40 _y
+	s40 *y
+	s40 []y1
+	s40 [1]y2
+	s40 [2]y3
+
+s42:
+	str b
+	str c
+s421:
+	s42 argh
+s43:
+	s22 s3
+	str d
+	s421 s4
+
+s44:
+	pstr a
+s45:
+	pstr b
+	pstr c
+s46:
+	s44 s3
+	pstr d
+	s43 s4
+
+s47:
+	pshort a
+s48:
+	pshort b
+	pshort c
+s49:
+	s47 s3
+	pshort d
+	s48 s4
+s499:
+	s49 a1
+
+s50:
+	s49 i
+	s49[] e
+	s49* m
+	s49[1] n
+	s49[10] nn
+
+s51:
+	s43 i
+	s43[] e
+	s43* m
+	s43[1] n
+	s43[10] nn
+
+s52:
+	s34 i
+	s34[] e
+	s34* m
+	s34[1] n
+	s34[10] nn
+	s33 s1t
+	s33 *s2t
+	s4 s1b
+	s4 []s1v
+	s4 *s2a
+	s4 [1]s2n
+	s4 [2]s2m
+	s47 fg1
+	s47*fg2
+	s47[1]fg3
+	s47[2]fg4
+	s47[]fg5
+	s44   hg1
+	s44*  hg2
+	s44[1]hg3
+	s44[2]hg4
+	s44[] hg5
+	s43   hb1
+	s43*  hb2
+	s43[1]hb3
+	s43[2]hb4
+	s43[] hb5
+	s22   ig1
+	s22*  ig2
+	s22[1]ig3
+	s22[2]ig4
+	s22[] ig5
+	s4   bg1
+	s4*  bg2
+	s4[1]bg3
+	s4[2]bg4
+	s4[3]bg5
+	s4[] bg6
+	s45 x2
+	s45[1] x3
+
+s53:
+	s46 x1
+	s46 *x2
+	s46[] x3
+	s46[1] x4
+	s46[2] x5
+	s22 y1
+	s22 *y2
+	s22[] y3
+	s22[1] y4
+	s22[2] y5
+	s55 z1
+	s55 *z2
+	s55[] z3
+	s55[1] z4
+	s55[2] z5
+
+s55:
+	s39*p
+
+s60:
+	pint i
+	s60* p60
+s61:
+	s60 pp
+	int a
+	int b
+	int c
+
+s70:
+	int*i
+	int[1]j
+s71:
+	s70 s
+	s70 *s1
+	int a
+	long b
+	byte c
+	bit x
+	bit y
+	bit z
+
+#circle-dependency is resolved in mark_strutures_for_unpack() if disable priority_sort_fields()
+s80:
+	s80 *p
+	int i
+	bit b
+
+#tail-recursive: sA1->sA1->...
+sA1:
+	int k
+	sA1 *a1
+
+#tail-recursive: sA2->sB2->sA2->...
+sA2:
+	int m
+	sB2 *b2
+sB2:
+	str n
+	sA2 *a2
+
+#tail-recursive: sA3.sB3->sA3...
+sA3:
+	int m
+	sB3 b3
+sB3:
+	str n
+	sA3 *a3
+
+#tail-recursive: sD[0].sC.sB.sA->sE.sF->sD[0]...
+sB: sA a
+sC: sB b
+sD: sC[1]c
+sA: sE *e
+sE: sF f
+sF: sD *d
+
+#two possible tail-recursive paths: sA4.sB4->sA4... and sA4->sA4->...
+sA4:
+	int m
+	sB4 b4
+	sA4 *a4
+sB4:
+	str n
+	sA4 *a4
+
+#embedded tail-recursive structures: sA5.sA3.sB3->sA3... and sA5.sB3->sA3.sB3->...
+sA5:
+	sA3 a3
+	sB3 b3
+
+string_list:
+	string_list *next
+	str s
+
+sTree:
+	int value
+	str name
+	sTree *left
+	sTree *right
+
+s222:
+	s2[1] a
+
+s223_1:
+	s1[8] q
+
+s223:
+	s223_1[536870911] b
+	s222[4] c

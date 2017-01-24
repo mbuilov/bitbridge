@@ -1,0 +1,158 @@
+1. Bridge message format
+
+[<user_header><bridge_data>]
+
+where
+
+<user_header> - user-defined message header, may contain message length and, optionally, message byte-order
+<bridge_data> - bridge packed data
+
+
+1.1 <bridge_data> may be in one of 4 forms:
+
+1) <{bits_array}>
+ - no bytes encoded in the message
+ - bits array encoded as array of bytes, where each byte may hold 8 bits at maximum
+ - bits added to byte from lower to higher
+ note: if bits array size in bytes is constant, it's not needed to encode message length in <user_header>
+ note: free bits in bits array are undefined
+
+2) <{bytes_array}>
+ - no bits encoded in the message
+ note: if bytes array size is constant, it's not needed to encode message length in <user_header>
+
+3) <{bits_array}{bytes_array}>
+ - message has encoded bits and bytes
+ note: for this form, either bits array size in bytes or bytes array size must be constant
+ note: if both bits array size in bytes and bytes array size are constant, then it's not needed to encode message length in <user_header>
+
+4) <{bit_bytes_count}{bits_array}{bytes_array}>
+ - message has encoded bits and bytes, both bits array size in bytes and bytes array size are non-constant
+ {bit_bytes_count} - bits array size in bytes, encoded as ppint
+
+
+2. Primitive data types encoding
+
+
+2.1 Required fields
+
+2.1.1 bit (0 or 1)
+ - takes 1 bit in array of bits
+
+2.1.2 byte (8 bits)
+ - takes 1 byte in array of bytes
+
+2.1.3 short (16 bits)
+ - takes 2 bytes in array of bytes
+ - big or little-endian byte order is defined in <user_header>
+
+2.1.4 int (32 bits)
+ - takes 4 bytes in array of bytes
+ - big or little-endian byte order is defined in <user_header>
+
+2.1.5 long (64 bits)
+ - takes 8 bytes in array of bytes
+ - big or little-endian byte order is defined in <user_header>
+
+2.1.6 float (32 bits)
+ - takes 4 bytes in array of bytes
+ - big or little-endian byte order is defined in <user_header>
+
+2.1.7 double (64 bits)
+ - takes 8 bytes in array of bytes
+ - big or little-endian byte order is defined in <user_header>
+
+2.1.8 str (utf-8)
+ - takes 1 or more bytes in array of bytes
+ - encoded as <length><bytes><0>
+ - <length> - string length, in bytes, encoded as ppint
+ - <bytes>  - string bytes (one utf8 char may take up to 6 bytes)
+ - <0>      - byte with value 0
+ note: it's allowed to have more 0's in <bytes>
+ note: empty string encoded as one <0>
+
+
+2.2 Packed fields
+
+2.2.1 pshort (packed short)
+ - takes 1 to 3 bytes in array of bytes
+ - uses byte-order neutral (lower bytes first) encoding
+ - for each 7 source bits 1 bit is needed to mark the presence of second encoded byte
+ - for optimal packing of negative values, original value is zig-zag converted prior packing
+
+2.2.2 pint (packed int)
+ - takes 1 to 5 bytes in array of bytes
+ - uses byte-order neutral (lower bytes first) encoding
+ - for each 7 source bits 1 bit is needed to mark the presence of second encoded byte
+ - for optimal packing of negative values, original value is zig-zag converted prior packing
+
+2.2.3 plong (packed long)
+ - takes 1 to 9 bytes in array of bytes
+ - uses byte-order neutral (lower bytes first) encoding
+ - for each 7 source bits 1 bit is needed to mark the presence of second encoded byte, except for the last 8 source bits
+ - for optimal packing of negative values, original value is zig-zag converted prior packing
+
+2.2.4 ppshort (positive-packed short)
+ - takes 1 to 3 bytes in array of bytes
+ - uses byte-order neutral (lower bytes first) encoding
+ - for each 7 source bits 1 bit is needed to mark the presence of second encoded byte
+
+2.2.5 ppint (positive-packed int)
+ - takes 1 to 5 bytes in array of bytes
+ - uses byte-order neutral (lower bytes first) encoding
+ - for each 7 source bits 1 bit is needed to mark the presence of second encoded byte
+
+2.2.6 pplong (positive-packed long)
+ - takes 1 to 9 bytes in array of bytes
+ - uses byte-order neutral (lower bytes first) encoding
+ - for each 7 source bits 1 bit is needed to mark the presence of second encoded byte, except for the last 8 source bits
+
+2.2.7 pstr (packed string)
+ - takes 1 or more bytes in array of bytes
+ - encoded as <bytes><0>
+ - <bytes>  - string bytes (one utf8 char may take up to 6 bytes)
+ - <0>      - byte with value 0
+ note: no 0's inside <bytes> are allowed
+ note: empty string encoded as one <0>
+
+
+2.3 Optional fields
+
+- presence of any optional field is marked by one corresponding bit in array of bits
+- if field exists, it takes the same bits and bytes count as required (packed) field
+
+
+2.4 Fixed-sized arrays
+
+- fixed-sized array cannot be empty
+
+2.4.1 bit array
+ - takes as much bytes as needed to encode bits in array of bytes
+ note: fixed-sized array of one byte is not allowed
+
+2.4.2 byte array
+ - encoded as array of bytes
+
+2.4.3 short/int/long/float/double array
+ - each array element encoded as corresponding required field
+ - big or little-endian byte order is defined in <user_header>
+
+2.4.4 pshort/pint/plong/ppshort/ppint/pplong/str/pstr
+ - each array element encoded as corresponding required field
+
+
+2.5 Variable-sized arrays
+
+- first encoded number of array elements, as ppint
+- if array is not empty, next encoded as fixed-sized array
+
+
+3. Complex types
+
+- Complex user-defined types contain fields of primitive types and/or other complex types
+- While packing, fields of complex type are recursively scanned to pack fields of primitive types
+
+
+4. Fields sorting
+
+- Fields of complex type are sorted prior packing, so fixed-sized required fields are packed first

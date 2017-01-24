@@ -1,0 +1,3 @@
+Manifest-Version: 1.0
+Class-Path: bitbridge.jar bridge_test_lib.jar
+Main-Class: BridgeTest
