@@ -13,9 +13,9 @@
 
 #include "utils.h"
 #include "model.h"
-#include "name_parser.h"
-#include "int_parser.h"
-#include "parser_err.h"
+#include "gtparser/name_parser.h"
+#include "gtparser/int_parser.h"
+#include "gtparser/parser_err.h"
 
 #define STRUCTS_GROW_COUNT 10
 #define FILENAME_RESERVE 512u
@@ -35,8 +35,31 @@ static void err_at(const char *filename/*NULL?*/, const struct src_iter *it, con
 		filename, err_msg, pos.line, pos.column));
 }
 
-/* NOTE: detect end of struct definition by column position, though it may overflow...
-  - this will lead to parsing error anyway, because structure name must end with ':', but field name must not */
+/* NOTE: detect end of structure definition (and start of another structure)
+  by column position of next item, though column number may overflow...
+  - anyway, structure name must end with ':' and field name must not,
+  so we will detect bad input even if will ignore column number */
+
+/* examples:
+
+  struct1: int field11 int field12
+  struct2: int field21 int field22
+
+or
+
+  struct1: int field11
+    int field12
+  struct2: int field21
+    int field22
+
+or
+  struct1:
+    int field11
+    int field12
+  struct2:
+    int field21
+    int field22
+*/
 
 static struct field_def *read_field(const char *filename/*NULL?*/,
 	struct src_iter *it, struct struct_def *s, unsigned struct_column, int autoprefix)
