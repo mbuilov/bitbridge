@@ -1,5 +1,3 @@
-ifndef CONFIGURED
-include $(dir $(lastword $(MAKEFILE_LIST)))/../../config.mk
-endif
-TO_MAKE := model.mk C Java
+include $(dir $(lastword $(MAKEFILE_LIST)))../top.mk
+TO_MAKE := model C# Java
 include $(MTOP)/parallel.mk

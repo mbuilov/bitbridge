@@ -1,12 +1,10 @@
-ifndef MAKE_C_EVAL
-include $(dir $(lastword $(MAKEFILE_LIST)))/../../../config.mk
-endif
-$(MAKE_C_EVAL)
-LIB     := bitbridge
-DLL     := bitbridge
+include $(dir $(lastword $(MAKEFILE_LIST)))../../../top.mk
+include $(MTOP)/c.mk
+LIB := $(if $(NO_STATIC),,$(BITBRIDGE_LIB_NAME) $(BITBRIDGE_LIB_VARIANTS))
+DLL := $(if $(NO_SHARED),,$(BITBRIDGE_LIB_NAME) $(BITBRIDGE_DLL_VARIANTS))
 SRC     := bitbridge.c
-INCLUDE := $(TOP)/include
-SOVER   := 1
+#INCLUDE := $(TOP)/include
+#SOVER   := 1
 DLL_DEFINES := BITBRIDGE_EXPORTS=$(DLL_EXPORTS_DEFINE)
 ifdef DEBUG
 DEFINES := BITBRIDGE_DEBUG

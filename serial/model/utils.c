@@ -129,7 +129,7 @@ void _add_ptr_to_array(void ***arr, void ***arr_end, void *ptr)
 {
 	size_t cnt = (size_t)(*arr_end - *arr);
 	if ((size_t)~(size_t)0 - cnt*sizeof(void*) < sizeof(void*)) {
-		fprintf(stderr, "cannot add one more pointer to array of %lu elements\n", (unsigned long)(cnt & ~0lu));
+		fprintf(stderr, "cannot add one more pointer to array of %lu pointers\n", (unsigned long)(cnt & ~0lu));
 		exit(-4);
 	}
 	{

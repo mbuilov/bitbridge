@@ -12,8 +12,8 @@
 /* bridge memory stack allocator:
   - allocates memory via memstack_push(), doesn't frees memory */
 
-#include "memstack.h"
-#include "bitbridge_comn.h"
+#include "memstack/memstack.h"
+#include "bitbridge/bitbridge_comn.h"
 
 #ifdef __clang__
 #pragma clang diagnostic push

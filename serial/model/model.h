@@ -17,7 +17,7 @@
 #define BIT_BRIDGE_MODEL_PATCH 0
 
 /* workaround address sanitizer errors */
-#if defined(__STDC_VERSION__) && __STDC_VERSION__ >= 199901L
+#if (defined(__STDC_VERSION__) && __STDC_VERSION__ >= 199901L) || defined(_MSC_VER)
 #define FLEX_ARRAY_SIZE
 #else
 #define FLEX_ARRAY_SIZE 65536
@@ -59,7 +59,14 @@ struct field_def {
 	unsigned bit;                 /* F_OPTIONAL-field's bit number in the generated owner structure bits array
 	                                 (optional field is serialized only if this bit is set) */
 	/* attributes initialized by the parser */
+#ifdef _MSC_VER
+#pragma warning(push)
+#pragma warning(disable:4200) /* zero-sized array in struct/union */
+#endif
 	char name[FLEX_ARRAY_SIZE];   /* '\0'-terminated field name */
+#ifdef _MSC_VER
+#pragma warning(pop)
+#endif
 };
 
 enum struct_layout {
@@ -103,7 +110,14 @@ struct struct_def {
 	unsigned packed_bytes;             /* number of required bytes in packed structure, <= BRIDGE_MODEL_MAX_PACKED_SIZE */
 	unsigned packed_optional_bytes;    /* number of optional bytes in packed structure, valid if !unknown_packed_bytes */
 	/* attributes initialized by the parser */
+#ifdef _MSC_VER
+#pragma warning(push)
+#pragma warning(disable:4200) /* zero-sized array in struct/union */
+#endif
 	char s_name[FLEX_ARRAY_SIZE];      /* '\0'-terminated type name */
+#ifdef _MSC_VER
+#pragma warning(pop)
+#endif
 };
 
 /* is it needed to count bits to pack? (structure has variable packed bits count) */

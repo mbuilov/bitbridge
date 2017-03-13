@@ -6,6 +6,9 @@
 
 /* bitbridge.c */
 
+/* bitbridge.h suppresses some warnings
+  - restore warning level after including it */
+
 #ifdef __clang__
 #pragma clang diagnostic push
 #endif
@@ -14,7 +17,7 @@
 #pragma warning(push)
 #endif
 
-#include "bitbridge.h"
+#include "bitbridge/bitbridge.h"
 
 #ifdef __clang__
 #pragma clang diagnostic pop

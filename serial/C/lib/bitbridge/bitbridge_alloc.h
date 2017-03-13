@@ -12,7 +12,7 @@
 /* bridge allocator interface */
 
 #ifndef BITBRIDGE_CONM_H_INCLUDED
-#error do not #include this file directly, #include "bitbridge_comn.h" instead
+#error do not #include this file directly, #include "bitbridge/bitbridge_comn.h" instead
 #endif
 
 /* assume BRIDGE_DEFAULT_ALLOCATOR is a reference to struct bridge_allocator, then: */
@@ -85,7 +85,7 @@
 #define str_buf_length(str) (str_buf_size(str) - 1/*'\0'*/)
 
 /* get size/length of string constant */
-#define str_const_size(str) str_buf_size(str)
+#define str_const_size(str)   str_buf_size(str)
 #define str_const_length(str) str_buf_length(str)
 
 #ifdef __cplusplus
@@ -291,7 +291,7 @@ struct bridge_allocator {
 #define BRIDGE_ALLOCATOR_INITIALIZER(alloc_cb, free_cb, log_cb) {alloc_cb, free_cb}
 #endif
 
-#include "bitbridge_log_cb.inl"
+#include "bitbridge/bitbridge_log_cb.inl"
 
 /* initialize allocator */
 A_Nonnull_arg(1) A_Nonnull_arg(2)

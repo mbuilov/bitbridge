@@ -11,7 +11,7 @@
 
 /* internal header used by generated bridge pack()/unpack() functions */
 
-#include "bitbridge_comn.h"
+#include "bitbridge/bitbridge_comn.h"
 #include "bswaps.h"
 
 #if defined(__GNUC__) && (__GNUC__ >= 3)

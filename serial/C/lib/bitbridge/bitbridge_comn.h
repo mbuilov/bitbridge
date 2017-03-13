@@ -69,7 +69,7 @@ static inline char *BRIDGE_STPCPY(A_Notnull char *A_Restrict d, A_In_z const cha
 #define BRIDGE_DEBUG_ARGS
 #endif
 
-#include "bitbridge_alloc.h"
+#include "bitbridge/bitbridge_alloc.h"
 
 #ifndef INT64_TYPE
 #define INT64_TYPE long long
@@ -172,8 +172,8 @@ inline void bridge_pack_conv_info::init(bool convert, A_In struct bridge_allocat
 #endif
 
 struct bridge_unpack_src {
-	const void *from;                /* packed data to unpack from */
-	const void *limit;               /* packed data limit */
+	const void *from;      /* packed data to unpack from */
+	const void *limit;     /* packed data limit */
 #ifdef __cplusplus
 	A_Nonnull_all_args
 	inline void init(A_In_reads_bytes(sz) const void *mem, size_t sz/*0?*/);

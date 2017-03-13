@@ -12,7 +12,7 @@
 /* bridge heap allocator:
   - allocates memory in heap via standard malloc()/free() */
 
-#include "bitbridge_comn.h"
+#include "bitbridge/bitbridge_comn.h"
 
 #if !defined(BRIDGE_MALLOC) || !defined(BRIDGE_FREE)
 #include <stdlib.h>

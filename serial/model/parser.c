@@ -197,7 +197,7 @@ static struct struct_def *parse_struct(const char *filename/*NULL?*/, struct src
 	{
 		unsigned struct_column = src_iter_get_column(it);
 		const char *struct_name = read_name(it);
-		if (':' != src_iter_current_eof(it))
+		if (':' != src_iter_char_or_eof(it))
 			err_at(filename, it, "expecting ':' at end of structure name");
 		{
 			size_t struct_name_len = (size_t)(it->current - struct_name);

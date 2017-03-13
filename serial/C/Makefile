@@ -1,10 +1,8 @@
-ifndef MAKE_C_EVAL
-include $(dir $(lastword $(MAKEFILE_LIST)))/../../../config.mk
-endif
-TOOL_MODE := 1
-$(MAKE_C_EVAL)
+include $(dir $(lastword $(MAKEFILE_LIST)))../../top.mk
+include $(MTOP)/c.mk
 EXE     := bbcompc S
 SRC     := compiler.c pack_gen.c struct_gen.c
-INCLUDE := .. $(TOP)/include
+INCLUDE := $(TOP)/serial/model
 LIBS    := bridge_model
+USE     := cmn_headers gtparser
 $(DEFINE_TARGETS)
