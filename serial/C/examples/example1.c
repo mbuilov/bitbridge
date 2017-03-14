@@ -94,7 +94,8 @@ int main(int argc, char *argv[])
 					printf("wrong deserialized person name!");
 					goto err3;
 				}
-				print_person(p2);
+				if (argc < 2)
+					print_person(p2);
 				err = 0; /* ok */
 err3:
 				person_ac_delete(p2, &hac.ac);
@@ -106,7 +107,10 @@ err1:
 		person_ac_destroy(&p, &hac.ac);
 	}
 	bridge_heap_allocator_destroy(&hac);
-	printf(err ? "\nfailed\n" : "\nok\n");
-	(void)argc, (void)argv;
+	if (err)
+		printf("\nfailed\n");
+	else if (argc < 3)
+		printf("\nok\n");
+	(void)argv;
 	return err;
 }

@@ -143,7 +143,7 @@ int main(int argc, char *argv[])
 				}
 				if (compare_persons_lists(persons, persons2))
 					goto err3;
-				if (argc > 1)
+				if (argc < 2)
 					print_persons(persons2);
 				err = 0; /* ok */
 err3:
@@ -165,7 +165,10 @@ err0:
 	}
 	#undef BRIDGE_DEFAULT_ALLOCATOR
 	bridge_memstack_allocator_destroy(&mac);
-	printf(err ? "\nfailed\n" : "\nok\n");
+	if (err)
+		printf("\nfailed\n");
+	else if (argc < 3)
+		printf("\nok\n");
 	(void)argv;
 	return err;
 }

@@ -279,7 +279,7 @@ int main(int argc, char *argv[])
 				}
 				if (!compare_trees(tree, tree2))
 					goto err3;
-				if (argc > 1)
+				if (argc < 2)
 					print_tree(tree2);
 				err = 0; /* ok */
 err3:
@@ -300,7 +300,10 @@ err0:
 		;
 	}
 	mrac.destroy();
-	printf(err ? "\nfailed\n" : "\nok\n");
+	if (err)
+		printf("\nfailed\n");
+	else if (argc < 3)
+		printf("\nok\n");
 	(void)argv;
 	return err;
 }

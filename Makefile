@@ -7,6 +7,17 @@ distclean:
 else
 
 TO_MAKE := serial
+
+ifneq ($(filter WINXX,$(OS)),)
+TO_MAKE += version
+endif
+
+ifneq ($(filter check tests clean,$(MAKECMDGOALS)),)
+check tests: all
+TO_MAKE += test
+endif
+
+
 include $(MTOP)/parallel.mk
 
 endif # !distclean
