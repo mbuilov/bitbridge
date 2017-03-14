@@ -120,3 +120,24 @@ VENDOR_NAME           := Michael M. Builov
 VENDOR_URL            := https://github.com/mbuilov/bitbridge
 PRODUCT_NAME          := Another serialization/rpc mechanism
 VENDOR_COPYRIGHT      := Copyright (C) 2008-2017 $(VENDOR_NAME), $(VENDOR_URL)
+
+# bitbridge runtime library name
+BITBRIDGE_LIB_NAME ?= bitbridge$(if $(DEBUG),d)
+
+# variants of built static library
+#  LINUX:
+#   R,S   - position-dependent code
+#   P     - position-independent code for executables
+#   D     - position-independent code for shared objects (dlls)
+#  WINDOWS:
+#   R,P,D - dynamically linked multi-threaded libc
+#   S     - statically linked multi-threaded libc
+BITBRIDGE_LIB_VARIANTS ?= R P D S
+
+# variants of built dynamic library
+#  LINUX:
+#   R,S   - position-independent code
+#  WINDOWS:
+#   R     - dynamically linked multi-threaded libc
+#   S     - statically linked multi-threaded libc
+BITBRIDGE_DLL_VARIANTS ?= R S

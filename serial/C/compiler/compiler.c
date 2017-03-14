@@ -20,6 +20,9 @@
 #define BIT_BRIDGE_C_COMPILER_MINOR 0
 #define BIT_BRIDGE_C_COMPILER_PATCH 0
 
+/* generate code which needs bridge runtime library of this version */
+#define BRIDGE_NEED_RUNTIME_LIB 1u
+
 #define BITBRIDGE_C_COMPILER_VERSION "BitBridge C-compiler version "
 
 /* version: [model_ver.compiler_major.compiler_minor] */
@@ -64,12 +67,12 @@ int main(int argc, char *argv[])
 	{
 		char *al = NULL;
 		#define opts "schmdn"
-		#define in values[0]
-		#define cs values[1]
-		#define ch values[2]
-		#define md values[3]
-		#define dc values[4]
-		#define na values[5]
+		#define in values[0] /* s */
+		#define cs values[1] /* c */
+		#define ch values[2] /* h */
+		#define md values[3] /* m */
+		#define dc values[4] /* d */
+		#define na values[5] /* n */
 		char *values[sizeof(opts) - 1];
 		if ((unsigned)argc > 1/*program name*/ + sizeof(values)/sizeof(values[0])) {
 			fprintf(stderr, "%s: too many arguments\n", program);
@@ -138,7 +141,7 @@ int main(int argc, char *argv[])
 					fclose(print_model(wopen_file(md)));
 				if (cs) {
 					fclose(generate_h(wopen_file(ch), ch, dc/*NULL?*/));
-					fclose(generate_c(wopen_file(cs), cs, ch, dc/*NULL?*/));
+					fclose(generate_c(wopen_file(cs), cs, ch, BRIDGE_NEED_RUNTIME_LIB, dc/*NULL?*/));
 				}
 			}
 			free(buf);

@@ -13,7 +13,7 @@
 #include "compiler.h"
 #include "model.h"
 
-/* don't tell alloc_cb() to copy bytes less than BR_MEMCPY_MAX_SIZE, we'll copy them inplace via _br_memcpy?() */
+/* don't tell alloc_cb() to copy bytes less than BR_MEMCPY_MAX_SIZE, we'll copy them inplace via _br_memcpy{1..8}() */
 #define BR_MEMCPY_MAX_SIZE 8
 
 #define WHL while ((void)0,0)

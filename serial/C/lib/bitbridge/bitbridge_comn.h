@@ -13,6 +13,9 @@
 
 #include "sal_defs.h"
 
+/* bridge runtime library version */
+#define BRIDGE_RUNTIME_LIB_VERSION 1
+
 #if !defined(BRIDGE_STRLEN) || !defined(BRIDGE_MEMCHR) || !defined(BRIDGE_STPCPY) || !defined(BRIDGE_MEMCPY) || !defined(BRIDGE_MEMSET)
 #include <string.h>
 #ifndef BRIDGE_STRLEN
@@ -56,20 +59,25 @@ static inline char *BRIDGE_STPCPY(A_Notnull char *A_Restrict d, A_In_z const cha
 
 /* define BITBRIDGE_DEBUG to print traces of memory alloc/free calls */
 #ifdef BITBRIDGE_DEBUG
-#define BRIDGE_DEBUG_SUFFIX(a) a##_debug
-#define BRIDGE_DEBUG_ARGS_VOID (void)file, (void)line;
-#define BRIDGE_DEBUG_ARGS_DECL , const char *file, unsigned line
-#define BRIDGE_DEBUG_ARGS_PASS , file, line
-#define BRIDGE_DEBUG_ARGS      , __FILE__, __LINE__
+#define BRIDGE_DEBUG_ARGS_VOID      (void)file, (void)line;
+#define BRIDGE_DEBUG_ARGS_DECL      , const char *file, unsigned line
+#define BRIDGE_DEBUG_ARGS_PASS      , file, line
+#define BRIDGE_DEBUG_ARGS           , __FILE__, __LINE__
+#define __BRIDGE_EXPORT_SUFFIX(a,r) a##v##r##_debug
 #else
-#define BRIDGE_DEBUG_SUFFIX(a) a
 #define BRIDGE_DEBUG_ARGS_VOID
 #define BRIDGE_DEBUG_ARGS_DECL
 #define BRIDGE_DEBUG_ARGS_PASS
 #define BRIDGE_DEBUG_ARGS
+#define __BRIDGE_EXPORT_SUFFIX(a,r) a##v##r
 #endif
 
+#define _BRIDGE_EXPORT_SUFFIX(a,r) __BRIDGE_EXPORT_SUFFIX(a,r)
+#define BRIDGE_EXPORT_SUFFIX(a)    _BRIDGE_EXPORT_SUFFIX(a,BRIDGE_RUNTIME_LIB_VERSION)
+
 #include "bitbridge/bitbridge_alloc.h"
+
+/* define fixed-width types: INT64_TYPE, INT32_TYPE, INT16_TYPE, INT8_TYPE */
 
 #ifndef INT64_TYPE
 #define INT64_TYPE long long
@@ -91,7 +99,7 @@ static inline char *BRIDGE_STPCPY(A_Notnull char *A_Restrict d, A_In_z const cha
 extern "C" {
 #endif
 
-/* check type sizes */
+/* check type sizes in bits */
 typedef int _CHAR_is_not_8_bits_[1-2*(255 != (unsigned char)~(unsigned char)0)];
 typedef int _INT8_is_not_8_bits_[1-2*(1 != sizeof(INT8_TYPE))];
 typedef int _INT16_is_not_16_bits_[1-2*(2 != sizeof(INT16_TYPE))];

@@ -12,6 +12,16 @@
 /* internal header used by generated bridge pack()/unpack() functions */
 
 #include "bitbridge/bitbridge_comn.h"
+
+#ifndef BRIDGE_LIBRARY_IMPL
+#ifndef BRIDGE_NEED_RUNTIME_LIB
+#error "BRIDGE_NEED_RUNTIME_LIB is not defined! (this header should be included only from bridge-generated source)"
+#endif
+#if BRIDGE_NEED_RUNTIME_LIB > BRIDGE_RUNTIME_LIB_VERSION
+#error "too old bridge runtime library!"
+#endif
+#endif /* BRIDGE_LIBRARY_IMPL */
+
 #include "bswaps.h"
 
 #if defined(__GNUC__) && (__GNUC__ >= 3)
@@ -27,33 +37,35 @@
 #define BITBRIDGE_EXPORTS
 #endif
 
-#define _bridge_unpack_bit_array          BRIDGE_DEBUG_SUFFIX(_bridge_unpack_bit_array)
-#define bridge_unpack_bit_array           BRIDGE_DEBUG_SUFFIX(bridge_unpack_bit_array)
-#define _bridge_unpack_str_               BRIDGE_DEBUG_SUFFIX(_bridge_unpack_str_)
-#define _bridge_unpack_pstr_              BRIDGE_DEBUG_SUFFIX(_bridge_unpack_pstr_)
-#define _bridge_unpack_str_array_         BRIDGE_DEBUG_SUFFIX(_bridge_unpack_str_array_)
-#define _bridge_unpack_pstr_array_        BRIDGE_DEBUG_SUFFIX(_bridge_unpack_pstr_array_)
-#define bridge_unpack_str_array           BRIDGE_DEBUG_SUFFIX(bridge_unpack_str_array)
-#define bridge_unpack_pstr_array          BRIDGE_DEBUG_SUFFIX(bridge_unpack_pstr_array)
-#define _bridge_unpack_str_array_domains  BRIDGE_DEBUG_SUFFIX(_bridge_unpack_str_array_domains)
-#define _bridge_unpack_pstr_array_domains BRIDGE_DEBUG_SUFFIX(_bridge_unpack_pstr_array_domains)
-#define _bridge_unpack_str_array          BRIDGE_DEBUG_SUFFIX(_bridge_unpack_str_array)
-#define _bridge_unpack_pstr_array         BRIDGE_DEBUG_SUFFIX(_bridge_unpack_pstr_array)
-#define _bridge_destroy_ptr_array         BRIDGE_DEBUG_SUFFIX(_bridge_destroy_ptr_array)
-#define _bridge_delete_ptr_array          BRIDGE_DEBUG_SUFFIX(_bridge_delete_ptr_array)
-#define _bridge_delete_ptr_cont           BRIDGE_DEBUG_SUFFIX(_bridge_delete_ptr_cont)
-#define _bridge_unpack_pshort_array       BRIDGE_DEBUG_SUFFIX(_bridge_unpack_pshort_array)
-#define _bridge_unpack_pint_array         BRIDGE_DEBUG_SUFFIX(_bridge_unpack_pint_array)
-#define _bridge_unpack_plong_array        BRIDGE_DEBUG_SUFFIX(_bridge_unpack_plong_array)
-#define _bridge_unpack_ppshort_array      BRIDGE_DEBUG_SUFFIX(_bridge_unpack_ppshort_array)
-#define _bridge_unpack_ppint_array        BRIDGE_DEBUG_SUFFIX(_bridge_unpack_ppint_array)
-#define _bridge_unpack_pplong_array       BRIDGE_DEBUG_SUFFIX(_bridge_unpack_pplong_array)
-#define bridge_unpack_pshort_array        BRIDGE_DEBUG_SUFFIX(bridge_unpack_pshort_array)
-#define bridge_unpack_pint_array          BRIDGE_DEBUG_SUFFIX(bridge_unpack_pint_array)
-#define bridge_unpack_plong_array         BRIDGE_DEBUG_SUFFIX(bridge_unpack_plong_array)
-#define bridge_unpack_ppshort_array       BRIDGE_DEBUG_SUFFIX(bridge_unpack_ppshort_array)
-#define bridge_unpack_ppint_array         BRIDGE_DEBUG_SUFFIX(bridge_unpack_ppint_array)
-#define bridge_unpack_pplong_array        BRIDGE_DEBUG_SUFFIX(bridge_unpack_pplong_array)
+/* exported functions are suffixed with library version
+ - to protect from linking wrong bridge runtime library */
+#define _bridge_unpack_bit_array          BRIDGE_EXPORT_SUFFIX(_bridge_unpack_bit_array)
+#define bridge_unpack_bit_array           BRIDGE_EXPORT_SUFFIX(bridge_unpack_bit_array)
+#define _bridge_unpack_str_               BRIDGE_EXPORT_SUFFIX(_bridge_unpack_str_)
+#define _bridge_unpack_pstr_              BRIDGE_EXPORT_SUFFIX(_bridge_unpack_pstr_)
+#define _bridge_unpack_str_array_         BRIDGE_EXPORT_SUFFIX(_bridge_unpack_str_array_)
+#define _bridge_unpack_pstr_array_        BRIDGE_EXPORT_SUFFIX(_bridge_unpack_pstr_array_)
+#define bridge_unpack_str_array           BRIDGE_EXPORT_SUFFIX(bridge_unpack_str_array)
+#define bridge_unpack_pstr_array          BRIDGE_EXPORT_SUFFIX(bridge_unpack_pstr_array)
+#define _bridge_unpack_str_array_domains  BRIDGE_EXPORT_SUFFIX(_bridge_unpack_str_array_domains)
+#define _bridge_unpack_pstr_array_domains BRIDGE_EXPORT_SUFFIX(_bridge_unpack_pstr_array_domains)
+#define _bridge_unpack_str_array          BRIDGE_EXPORT_SUFFIX(_bridge_unpack_str_array)
+#define _bridge_unpack_pstr_array         BRIDGE_EXPORT_SUFFIX(_bridge_unpack_pstr_array)
+#define _bridge_destroy_ptr_array         BRIDGE_EXPORT_SUFFIX(_bridge_destroy_ptr_array)
+#define _bridge_delete_ptr_array          BRIDGE_EXPORT_SUFFIX(_bridge_delete_ptr_array)
+#define _bridge_delete_ptr_cont           BRIDGE_EXPORT_SUFFIX(_bridge_delete_ptr_cont)
+#define _bridge_unpack_pshort_array       BRIDGE_EXPORT_SUFFIX(_bridge_unpack_pshort_array)
+#define _bridge_unpack_pint_array         BRIDGE_EXPORT_SUFFIX(_bridge_unpack_pint_array)
+#define _bridge_unpack_plong_array        BRIDGE_EXPORT_SUFFIX(_bridge_unpack_plong_array)
+#define _bridge_unpack_ppshort_array      BRIDGE_EXPORT_SUFFIX(_bridge_unpack_ppshort_array)
+#define _bridge_unpack_ppint_array        BRIDGE_EXPORT_SUFFIX(_bridge_unpack_ppint_array)
+#define _bridge_unpack_pplong_array       BRIDGE_EXPORT_SUFFIX(_bridge_unpack_pplong_array)
+#define bridge_unpack_pshort_array        BRIDGE_EXPORT_SUFFIX(bridge_unpack_pshort_array)
+#define bridge_unpack_pint_array          BRIDGE_EXPORT_SUFFIX(bridge_unpack_pint_array)
+#define bridge_unpack_plong_array         BRIDGE_EXPORT_SUFFIX(bridge_unpack_plong_array)
+#define bridge_unpack_ppshort_array       BRIDGE_EXPORT_SUFFIX(bridge_unpack_ppshort_array)
+#define bridge_unpack_ppint_array         BRIDGE_EXPORT_SUFFIX(bridge_unpack_ppint_array)
+#define bridge_unpack_pplong_array        BRIDGE_EXPORT_SUFFIX(bridge_unpack_pplong_array)
 
 #ifdef __cplusplus
 extern "C" {

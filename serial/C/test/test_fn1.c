@@ -1,7 +1,7 @@
 /********************************************************************************
 * bitbridge - another serialization/rpc mechanism
 * Copyright (C) 2008-2017 Michael M. Builov, https://github.com/mbuilov/bitbridge
-* Licensed under GPL version 3 or any later version, see COPYING
+* Licensed under GPL version 3 or any later version, see COPYING.GPL3
 ********************************************************************************/
 
 /* test_fn1.c */
@@ -10,7 +10,7 @@
 #include <stdio.h>
 
 #include "test_fn1.h"
-#include "memstack.h"
+#include "memstack/memstack.h"
 #include "gen_test.h"
 
 #ifdef WIN32

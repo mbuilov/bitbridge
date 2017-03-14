@@ -1,7 +1,7 @@
 /********************************************************************************
 * bitbridge - another serialization/rpc mechanism
 * Copyright (C) 2008-2017 Michael M. Builov, https://github.com/mbuilov/bitbridge
-* Licensed under GPL version 3 or any later version, see COPYING
+* Licensed under GPL version 3 or any later version, see COPYING.GPL3
 ********************************************************************************/
 
 /* bridge_test.c */
@@ -16,9 +16,9 @@
 #endif
 #endif
 
-#include "bitbridge_heap.inl"
-#include "bitbridge_memstack.inl"
-#include "bitbridge_memstack_ref.inl"
+#include "bitbridge/bitbridge_heap.inl"
+#include "bitbridge/bitbridge_memstack.inl"
+#include "bitbridge/bitbridge_memstack_ref.inl"
 
 #include "test_fn1.h"
 

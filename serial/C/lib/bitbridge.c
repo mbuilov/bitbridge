@@ -9,6 +9,8 @@
 /* bitbridge.h suppresses some warnings
   - restore warning level after including it */
 
+#define BRIDGE_LIBRARY_IMPL 1
+
 #ifdef __clang__
 #pragma clang diagnostic push
 #endif

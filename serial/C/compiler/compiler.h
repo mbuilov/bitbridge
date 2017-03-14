@@ -20,8 +20,8 @@ int generate_prototype_init_unpacked(FILE *file, const struct struct_def *s);
 void mark_strutures_for_unpack(void);
 int generate_code_unpack(FILE *file, struct struct_def *s, const char *decl/*NULL?*/, int gotoz);
 void print_equivalent_path_s(FILE *file, const struct struct_def *s);
-FILE *generate_h(FILE *file, const char *fname, const char *decl/*NULL?*/);
-FILE *generate_c(FILE *file, const char *fname, const char *header, const char *decl/*NULL?*/);
+FILE *generate_h(FILE *file, const char *hname, const char *decl/*NULL?*/);
+FILE *generate_c(FILE *file, const char *cname, const char *hname, unsigned bridge_need_runtime, const char *decl/*NULL?*/);
 
 #ifdef __GNUC__
 __attribute__ ((const))
