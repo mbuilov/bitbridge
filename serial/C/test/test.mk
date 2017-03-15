@@ -12,9 +12,12 @@ DEFINES  := BRIDGE_TEST_EXPORTS=
 ifdef DEBUG
 DEFINES += BITBRIDGE_DEBUG
 endif
-LIBMEMSTACK_VARIANT := $(lastword $(EXE))
-USE      := memstack_static cmn_headers
+LIBMEMSTACK_NEED := EXE $(lastword $(EXE))
+USE      := memstack_static.mk cmn_headers.mk
 endif
+
+ifndef NO_SHARED
+DLLS :=
 
 $(call MAKE_CONTINUE,INCLUDE SRC SDEPS)
 

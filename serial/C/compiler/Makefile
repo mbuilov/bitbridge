@@ -4,5 +4,5 @@ EXE     := bbcompc S
 SRC     := compiler.c pack_gen.c struct_gen.c
 INCLUDE := $(TOP)/serial/model
 LIBS    := bridge_model
-USE     := cmn_headers gtparser
+USE     := cmn_headers.mk gtparser.mk
 $(DEFINE_TARGETS)

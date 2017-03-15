@@ -9,5 +9,5 @@ DLL_DEFINES := BITBRIDGE_EXPORTS=$(DLL_EXPORTS_DEFINE)
 ifdef DEBUG
 DEFINES := BITBRIDGE_DEBUG
 endif
-USE     := cmn_headers
+USE     := cmn_headers.mk
 $(DEFINE_TARGETS)
