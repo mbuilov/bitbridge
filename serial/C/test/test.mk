@@ -1,16 +1,20 @@
 include $(dir $(lastword $(MAKEFILE_LIST)))../../../top.mk
 include $(MTOP)/c.mk
 
-EXE     := bridge_test_static S
-LIBS    := bridge_test_lib $(BITBRIDGE_LIB_NAME)
-INCLUDE := $(GEN_DIR)/bridge_test $(TOP)/serial/C/lib
-SRC     := bridge_test.c test_fn1.c
-SDEPS   := $(call FORM_SDEPS,$(SRC),$(GEN_DIR)/bridge_test/gen_test.h)
-DEFINES := BRIDGE_TEST_EXPORTS=
+ifndef NO_STATIC
+LIBS     := bridge_test_lib $(BITBRIDGE_LIB_NAME)
+VARIANTS := $(filter-out D,$(call FILTER_VARIANTS_LIST,LIB,$(BITBRIDGE_LIB_VARIANTS)))
+EXE      := $(if $(VARIANTS),bridge_test_static $(firstword $(filter-out R,$(VARIANTS))))
+INCLUDE  := $(GEN_DIR)/bridge_test $(TOP)/serial/C/lib
+SRC      := bridge_test.c test_fn1.c
+SDEPS    := $(call FORM_SDEPS,$(SRC),$(GEN_DIR)/bridge_test/gen_test.h)
+DEFINES  := BRIDGE_TEST_EXPORTS=
 ifdef DEBUG
 DEFINES += BITBRIDGE_DEBUG
 endif
-USE     := memstack_static cmn_headers
+LIBMEMSTACK_VARIANT := $(lastword $(EXE))
+USE      := memstack_static cmn_headers
+endif
 
 $(call MAKE_CONTINUE,INCLUDE SRC SDEPS)
 

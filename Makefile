@@ -14,9 +14,8 @@ endif
 
 ifneq ($(filter check tests clean,$(MAKECMDGOALS)),)
 check tests: all
-TO_MAKE += test
+TO_MAKE += serial/tests.mk
 endif
-
 
 include $(MTOP)/parallel.mk
 
