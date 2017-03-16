@@ -9,7 +9,7 @@
 #include <stdio.h>
 
 #include "gen_example.h"
-#include "bitbridge_memstack_ref.inl"
+#include "bitbridge/bitbridge_memstack_ref.inl"
 
 /* example 4:
  - use c++ helpers
@@ -254,7 +254,7 @@ int main(int argc, char *argv[])
 	struct bridge_memstack_ref_allocator mrac;
 	mrac.init();
 	mrac.ac.enable_log(false);
-	memstack_disable_log(&mrac.ms);
+	memstack_enable_log(&mrac.ms, 0);
 	{
 		struct tree *tree = NULL;
 		if (!create_tree(&tree, 0, 10000, mrac.ac))

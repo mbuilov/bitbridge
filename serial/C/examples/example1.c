@@ -9,7 +9,7 @@
 #include <stdio.h>
 
 #include "gen_example.h"
-#include "bitbridge_heap.inl"
+#include "bitbridge/bitbridge_heap.inl"
 
 /* example 1:
  - use heap allocator

@@ -9,7 +9,7 @@
 #include <stdio.h>
 
 #include "gen_example.h"
-#include "bitbridge_memstack.inl"
+#include "bitbridge/bitbridge_memstack.inl"
 
 /* example 2:
  - use memstack arena allocator
@@ -117,7 +117,7 @@ int main(int argc, char *argv[])
 	int err = 1;
 	struct bridge_memstack_allocator mac = BRIDGE_MEMSTACK_ALLOCATOR_INITIALIZER;
 	bridge_allocator_enable_log(&mac.ac, /*enable:*/0);
-	memstack_disable_log(&mac.ms);
+	memstack_enable_log(&mac.ms, 0);
 	#define BRIDGE_DEFAULT_ALLOCATOR (&mac.ac)
 	{
 		struct person *persons = create_persons_list(100, BRIDGE_DEFAULT_ALLOCATOR);

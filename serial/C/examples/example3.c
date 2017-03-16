@@ -9,7 +9,7 @@
 #include <stdio.h>
 
 #include "gen_example.h"
-#include "bitbridge_memstack_ref.inl"
+#include "bitbridge/bitbridge_memstack_ref.inl"
 
 /* example 3:
  - use memstack arena allocator which may reference source memory instead of copying it
@@ -171,7 +171,7 @@ int main(int argc, char *argv[])
 	int err = 1;
 	struct bridge_memstack_ref_allocator mrac = BRIDGE_MEMSTACK_REF_ALLOCATOR_INITIALIZER;
 	bridge_allocator_enable_log(&mrac.ac, /*enable:*/0);
-	memstack_disable_log(&mrac.ms);
+	memstack_enable_log(&mrac.ms, 0);
 	#define BRIDGE_DEFAULT_ALLOCATOR (&mrac.ac)
 	{
 		struct person *persons = create_persons_list(100000, BRIDGE_DEFAULT_ALLOCATOR);
