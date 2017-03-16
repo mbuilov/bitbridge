@@ -592,7 +592,7 @@ static void print_structure(FILE *file, const struct struct_def *s)
 						"\n\t  returns set value"
 						"\n\t  NOTE: %s_ may be NULL if %s_bit_count_ is zero"
 						"\n\t  NOTE: old value is not checked and just overwritten"
-						"\n\t  NOTE: this structure takes control over set bits array - it will be deleted in ac_destroy() */"
+						"\n\t  NOTE: this structure takes control over set bits array - it will be deleted in ac_destroy()"
 						"\n\t  NOTE: ac_destroy() will ignore set bits array if %s_ is NULL, even if %s_bit_count_ is non-zero */"
 						"\n\tA_Post_satisfies(return == %s_)"
 						"\n\tunsigned char *set_%s("
