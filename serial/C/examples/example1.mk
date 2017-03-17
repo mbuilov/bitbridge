@@ -1,5 +1,6 @@
 include $(dir $(lastword $(MAKEFILE_LIST)))../../../top.mk
 include $(MTOP)/c.mk
+include $(MTOP)/exts/ctest.mk
 
 ifndef NO_STATIC
 
@@ -21,6 +22,8 @@ $(call MULTI_TARGET,$(GENERATED),$(BIN_DIR)/bbcompc$(EXE_SUFFIX) example1.sd,$$(
   2,$$^)) -c$(call ospath,$(word 1,$(GENERATED))) -h$(call ospath,$(word 2,$(GENERATED))))
 
 USE := cmn_headers.mk
+
+$(DO_TEST_EXE)
 
 endif # !NO_STATIC
 

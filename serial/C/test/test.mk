@@ -1,5 +1,6 @@
 include $(dir $(lastword $(MAKEFILE_LIST)))../../../top.mk
 include $(MTOP)/c.mk
+include $(MTOP)/exts/ctest.mk
 
 ifndef NO_STATIC
 VARIANTS := $(filter-out D,$(call FILTER_VARIANTS_LIST,LIB,$(BITBRIDGE_LIB_VARIANTS)))
@@ -14,6 +15,7 @@ DEFINES += BITBRIDGE_DEBUG
 endif
 EXE_NEED_LIBMEMSTACK := static $(lastword $(EXE))
 USE := memstack.mk cmn_headers.mk
+$(DO_TEST_EXE)
 endif
 
 $(MAKE_CONTINUE)
@@ -30,8 +32,13 @@ DEFINES  += BITBRIDGE_EXPORTS=$(DLL_IMPORTS_DEFINE)
 ifdef DEBUG
 DEFINES += BITBRIDGE_DEBUG
 endif
+RPATH     = $(MEMSTACK_LIBDIR)
 EXE_NEED_LIBMEMSTACK := dynamic $(lastword $(EXE))
 USE := memstack.mk cmn_headers.mk
+$(call DO_TEST_EXE,$(DLLS:=.$(call ver_major,$(PRODUCT_VER))))
 endif
+
+# to run tests under cygwin
+check: PATH := $(PATH:=:)$(LIB_DIR)$(addprefix :,$(MEMSTACK_LIBDIR))
 
 $(DEFINE_TARGETS)

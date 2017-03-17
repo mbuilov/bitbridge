@@ -1,5 +1,6 @@
 include $(dir $(lastword $(MAKEFILE_LIST)))../../../top.mk
 include $(MTOP)/c.mk
+include $(MTOP)/exts/ctest.mk
 
 ifndef NO_SHARED
 
@@ -27,6 +28,8 @@ EXE_DEFINES := EXAMPLE4_EXPORTS=$(DLL_IMPORTS_DEFINE)
 
 EXE_NEED_LIBMEMSTACK := shared $(lastword $(EXE))
 USE := memstack.mk cmn_headers.mk
+
+$(call DO_TEST_EXE,$(addsuffix .$(call ver_major,$(PRODUCT_VER)),$(DLLS) $(EXE_DLLS)))
 
 endif # !NO_SHARED
 

@@ -1,5 +1,6 @@
 include $(dir $(lastword $(MAKEFILE_LIST)))../../../top.mk
 include $(MTOP)/c.mk
+include $(MTOP)/exts/ctest.mk
 
 ifndef NO_SHARED
 
@@ -23,6 +24,8 @@ $(call MULTI_TARGET,$(GENERATED),$(BIN_DIR)/bbcompc$(EXE_SUFFIX) example3.sd,$$(
 
 EXE_NEED_LIBMEMSTACK := static $(lastword $(EXE))
 USE := memstack.mk cmn_headers.mk
+
+$(call DO_TEST_EXE,$(DLLS:=.$(call ver_major,$(PRODUCT_VER))))
 
 endif # !NO_SHARED
 

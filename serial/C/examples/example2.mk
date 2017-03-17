@@ -1,5 +1,6 @@
 include $(dir $(lastword $(MAKEFILE_LIST)))../../../top.mk
 include $(MTOP)/c.mk
+include $(MTOP)/exts/ctest.mk
 
 ifndef NO_STATIC
 
@@ -22,6 +23,8 @@ $(call MULTI_TARGET,$(GENERATED),$(BIN_DIR)/bbcompc$(EXE_SUFFIX) example2.sd,$$(
 
 EXE_NEED_LIBMEMSTACK := static $(lastword $(EXE))
 USE := memstack.mk cmn_headers.mk
+
+$(DO_TEST_EXE)
 
 endif # !NO_STATIC
 
