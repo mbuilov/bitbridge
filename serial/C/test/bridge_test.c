@@ -1,7 +1,7 @@
 /********************************************************************************
 * bitbridge - another serialization/rpc mechanism
 * Copyright (C) 2008-2017 Michael M. Builov, https://github.com/mbuilov/bitbridge
-* Licensed under GPL version 3 or any later version, see COPYING.GPL3
+* Licensed under GPL version 3 or any later version, see COPYING
 ********************************************************************************/
 
 /* bridge_test.c */
@@ -133,7 +133,7 @@ int main(int argc, char *argv[])
 	err = test1(LOOP_COUNT);
 	crt_check_memory();
 	if (err)
-		printf("\n!FAILED TEST: %d\n", err);
+		fprintf(stderr, "\n!FAILED TEST: %d\n", err);
 	else
 		printf("ALL TESTS PASSED\n");
 	return err;
