@@ -35,7 +35,7 @@ public final class BridgeTest {
 	public static void main(String[] args) {
 		int err = test1(LOOP_COUNT);
 		if (err != 0)
-			System.out.println("\n!FAILED TEST: " + err);
+			System.err.println("\n!FAILED TEST: " + err);
 		else
 			System.out.println("ALL TESTS PASSED");
 	}

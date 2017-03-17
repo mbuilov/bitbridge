@@ -1,7 +1,7 @@
-MEMSTACK_PREFIX  ?= /usr
-MEMSTACK_INCLUDE ?= $(MEMSTACK_PREFIX)/include
-MEMSTACK_LIBDIR  ?= $(MEMSTACK_PREFIX)/lib
-LIBMEMSTACK_NAME ?= memstack
+MEMSTACK_PREFIX   ?= /usr
+MEMSTACK_INCLUDE  ?= $(MEMSTACK_PREFIX)/include
+MEMSTACK_LIBDIR   ?= $(MEMSTACK_PREFIX)/lib
+MEMSTACK_LIB_NAME ?= memstack$(if $(DEBUG),d)
 
 ifdef DEBUG
 DEFINES += MEMSTACK_DEBUG
@@ -12,7 +12,7 @@ INCLUDE += $(MEMSTACK_INCLUDE)
 # generate memstack library name
 # $1 - EXE static S
 LIBMEMSTACK ?= $(foreach t,$(firstword $1),$(if $($t),$(MEMSTACK_LIBDIR)/$(foreach k,$(if $(filter static,$(word \
-  2,$1)),LIB,IMP),$($k_PREFIX)$(LIBMEMSTACK_NAME)$(if $(DEBUG),d)$(call DEP_$k_SUFFIX,$t,$(lastword $1))$($k_SUFFIX))))
+  2,$1)),LIB,IMP),$($k_PREFIX)$(MEMSTACK_LIB_NAME)$(call DEP_$k_SUFFIX,$t,$(lastword $1))$($k_SUFFIX))))
 
 # EXE_NEED_LIBMEMSTACK/DLL_NEED_LIBMEMSTACK - specifies
 # kind of required memstack library (static or dynamic)
