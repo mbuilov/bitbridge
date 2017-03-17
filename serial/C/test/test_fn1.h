@@ -4,7 +4,7 @@
 /********************************************************************************
 * bitbridge - another serialization/rpc mechanism
 * Copyright (C) 2008-2017 Michael M. Builov, https://github.com/mbuilov/bitbridge
-* Licensed under GPL version 3 or any later version, see COPYING.GPL3
+* Licensed under GPL version 3 or any later version, see COPYING
 ********************************************************************************/
 
 /* test_fn1.h */
