@@ -11,10 +11,10 @@ SRC      := bridge_test.c test_fn1.c
 SDEPS    := $(call FORM_SDEPS,$(SRC),$(GEN_DIR)/bridge_test/gen_test.h)
 DEFINES  := BRIDGE_TEST_EXPORTS=
 ifdef DEBUG
-DEFINES += BITBRIDGE_DEBUG
+DEFINES  += BITBRIDGE_DEBUG
 endif
-EXE_NEED_LIBMEMSTACK := static $(lastword $(EXE))
-USE := memstack.mk cmn_headers.mk
+NEED_LIBMEMSTACK := EXE LIB $(lastword $(EXE))
+USE      := memstack.mk cmn_headers.mk
 $(DO_TEST_EXE)
 endif
 
@@ -30,11 +30,11 @@ SDEPS    := $(call FORM_SDEPS,$(SRC),$(GEN_DIR)/bridge_test/gen_test.h)
 DEFINES  := BRIDGE_TEST_EXPORTS=$(DLL_IMPORTS_DEFINE)
 DEFINES  += BITBRIDGE_EXPORTS=$(DLL_IMPORTS_DEFINE)
 ifdef DEBUG
-DEFINES += BITBRIDGE_DEBUG
+DEFINES  += BITBRIDGE_DEBUG
 endif
 RPATH     = $(MEMSTACK_LIBDIR)
-EXE_NEED_LIBMEMSTACK := dynamic $(lastword $(EXE))
-USE := memstack.mk cmn_headers.mk
+NEED_LIBMEMSTACK := EXE IMP $(lastword $(EXE))
+USE     := memstack.mk cmn_headers.mk
 $(call DO_TEST_EXE,$(DLLS:=.$(call ver_major,$(PRODUCT_VER))))
 endif
 

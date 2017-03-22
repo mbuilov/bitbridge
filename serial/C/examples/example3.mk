@@ -22,7 +22,7 @@ $(call ADD_GENERATED,$(GENERATED))
 $(call MULTI_TARGET,$(GENERATED),$(BIN_DIR)/bbcompc$(EXE_SUFFIX) example3.sd,$$(call ospath,$$<) -s$$(call ospath,$$(word \
   2,$$^)) -c$(call ospath,$(word 1,$(GENERATED))) -h$(call ospath,$(word 2,$(GENERATED))))
 
-EXE_NEED_LIBMEMSTACK := static $(lastword $(EXE))
+NEED_LIBMEMSTACK := EXE LIB $(lastword $(EXE))
 USE := memstack.mk cmn_headers.mk
 
 $(call DO_TEST_EXE,$(DLLS:=.$(call ver_major,$(PRODUCT_VER))))

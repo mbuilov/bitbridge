@@ -7,6 +7,8 @@ DEFINCLUDE :=
 PREDEFINES := $(if $(DEBUG),_DEBUG)
 APPDEFS :=
 
+PROJECT_USE_DIR := $(TOP)/make/use
+
 ifeq (WINXX,$(OS))
 PREDEFINES += _ALLOW_KEYWORD_MACROS _ALLOW_RTCc_IN_STL inline=__inline
 WIN_APP_FLAGS := /X /GF /Wall /EHsc
