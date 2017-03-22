@@ -15,9 +15,9 @@ $(error NEED_LIBMEMSTACK must be defined, for example: EXE IMP S)
 endif
 
 SYSLIBS += $(MEMSTACK_LIBDIR)/$(foreach \
-  t,$(firstword $(NEED_LIBMEMSTACK),$(foreach \
+  t,$(firstword $(NEED_LIBMEMSTACK)),$(foreach \
   k,$(word 2,$(NEED_LIBMEMSTACK)),$($k_PREFIX)$(MEMSTACK_LIB_NAME)$(call \
-  DEP_$k_SUFFIX,$t,$(lastword $(NEED_LIBMEMSTACK)),$(MEMSTACK_LIB_NAME))$($k_SUFFIX))))
+  DEP_$k_SUFFIX,$t,$(lastword $(NEED_LIBMEMSTACK)),$(MEMSTACK_LIB_NAME))$($k_SUFFIX)))
 
 # reset after use
 NEED_LIBMEMSTACK:=
