@@ -13,7 +13,7 @@ INCLUDE   := $(GEN_DIR)/bridge_example1 $(TOP)/serial/C/lib
 SDEPS     := $(call FORM_SDEPS,example1.c,$(GEN_DIR)/bridge_example1/gen_example.h)
 
 ifdef DEBUG
-DEFINES += BITBRIDGE_DEBUG
+DEFINES := BITBRIDGE_DEBUG
 endif
 
 $(call ADD_GENERATED,$(GENERATED))

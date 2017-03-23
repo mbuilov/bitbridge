@@ -28,7 +28,7 @@ LDCONFIG       ?= /sbin/ldconfig
 
 else ifeq (WINXX,$(OS))
 
-PREFIX     ?= dist
+PREFIX     ?= C:\devel
 INCLUDEDIR ?= $(PREFIX)\include
 LIBDIR     ?= $(PREFIX)\lib
 

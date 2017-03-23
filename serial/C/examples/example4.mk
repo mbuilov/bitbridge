@@ -37,7 +37,8 @@ endif
 NEED_LIBMEMSTACK := EXE IMP $(lastword $(EXE))
 USE := memstack.mk cmn_headers.mk
 
-$(call DO_TEST_EXE,$(addsuffix .$(call ver_major,$(PRODUCT_VER)),$(DLLS) $(EXE_DLLS)))
+$(call DO_TEST_EXE,$(DLLS:=.$(call ver_major,$(PRODUCT_VER))),,$(call \
+  ospath,$(LIB_DIR))$(PATHSEP)$(subst ?, ,$(call ospath,$(MEMSTACK_DLLDIR))))
 
 endif # !NO_SHARED
 

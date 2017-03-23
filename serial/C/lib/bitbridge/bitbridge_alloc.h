@@ -473,7 +473,8 @@ static inline void *bridge_ref_source(A_Notnull const void *source)
 		union {
 			const void *c;
 			void *v;
-		} u = {source};
+		} u;
+		u.c = source;
 		BRIDGE_ASSERT(u.v == source);
 		return u.v; /* reference the source memory */
 	}
