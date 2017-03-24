@@ -696,7 +696,7 @@ static inline INT8_TYPE _bridge_get_byte_no_lim(A_Inout A_At(*A_Curr, A_In_reads
 A_Nonnull_all_args A_Check_return A_Post_satisfies(*mem == A_Old(*mem) + sizeof(INT16_TYPE))
 static inline INT16_TYPE _bridge_get_short_no_lim(A_Inout A_At(*A_Curr, A_In_reads_bytes(sizeof(INT16_TYPE))) const char **mem, int conv)
 {
-	const void *m = mem;
+	void *m = (void*)mem;
 	union {
 		UINT16_TYPE t;
 		struct _bridge_s2 tt;
@@ -708,7 +708,7 @@ static inline INT16_TYPE _bridge_get_short_no_lim(A_Inout A_At(*A_Curr, A_In_rea
 A_Nonnull_all_args A_Check_return A_Post_satisfies(*mem == A_Old(*mem) + sizeof(INT32_TYPE))
 static inline INT32_TYPE _bridge_get_int_no_lim(A_Inout A_At(*A_Curr, A_In_reads_bytes(sizeof(INT32_TYPE))) const char **mem, int conv)
 {
-	const void *m = mem;
+	void *m = (void*)mem;
 	union {
 		UINT32_TYPE t;
 		struct _bridge_s4 tt;
@@ -720,7 +720,7 @@ static inline INT32_TYPE _bridge_get_int_no_lim(A_Inout A_At(*A_Curr, A_In_reads
 A_Nonnull_all_args A_Check_return A_Post_satisfies(*mem == A_Old(*mem) + sizeof(INT64_TYPE))
 static inline INT64_TYPE _bridge_get_long_no_lim(A_Inout A_At(*A_Curr, A_In_reads_bytes(sizeof(INT64_TYPE))) const char **mem, int conv)
 {
-	const void *m = mem;
+	void *m = (void*)mem;
 	union {
 		UINT64_TYPE t;
 		struct _bridge_s8 tt;
@@ -1750,6 +1750,9 @@ static inline void _br_memcpy8(A_Out_writes_bytes_all(8) void *A_Restrict dst, A
 
 #ifdef _MSC_VER
 #pragma warning(disable: 4505) /* Unreferenced local function has been removed */
+#if _MSC_VER >= 1910
+#pragma warning(disable: 6384) /* Dividing sizeof a pointer by another value */
+#endif
 #endif
 
 #endif /* BITBRIDGE_H_INCLUDED */
