@@ -32,7 +32,7 @@ DEFINES  += BITBRIDGE_EXPORTS=$(DLL_IMPORTS_DEFINE)
 ifdef DEBUG
 DEFINES  += BITBRIDGE_DEBUG
 endif
-RPATH     = $(MEMSTACK_LIBDIR)
+RPATH     = $(MEMSTACK_LIBDIR) $(LIB_DIR)
 NEED_LIBMEMSTACK := EXE IMP $(lastword $(EXE))
 USE      := memstack.mk cmn_headers.mk
 $(call DO_TEST_EXE,$(DLLS:=.$(call ver_major,$(PRODUCT_VER))),,$(call \

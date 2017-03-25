@@ -28,6 +28,7 @@ EXE     := $(if $(VARIANTS),bridge_example4 $(firstword $(VARIANTS)))
 DLLS    += bridge_ex4
 SRC     := example4.cpp
 SDEPS   := $(call FORM_SDEPS,example4.cpp,$(GEN_DIR)/bridge_example4/gen_example.h)
+RPATH    = $(MEMSTACK_LIBDIR) $(LIB_DIR)
 DEFINES := BITBRIDGE_EXPORTS=$(DLL_IMPORTS_DEFINE)
 DEFINES += EXAMPLE4_EXPORTS=$(DLL_IMPORTS_DEFINE)
 ifdef DEBUG

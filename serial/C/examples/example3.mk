@@ -11,6 +11,7 @@ GENERATED := $(GEN_DIR)/bridge_example3/gen_example.c $(GEN_DIR)/bridge_example3
 SRC       := $(GEN_DIR)/bridge_example3/gen_example.c example3.c
 INCLUDE   := $(GEN_DIR)/bridge_example3 $(TOP)/serial/C/lib
 SDEPS     := $(call FORM_SDEPS,example3.c,$(GEN_DIR)/bridge_example3/gen_example.h)
+RPATH     := $(LIB_DIR)
 DEFINES   := BITBRIDGE_EXPORTS=$(DLL_IMPORTS_DEFINE)
 
 ifdef DEBUG
