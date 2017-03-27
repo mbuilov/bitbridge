@@ -159,7 +159,7 @@ struct bridge_allocator;
 
 typedef
 	/* allocate memory, returns NULL if failed */
-	A_Nonnull_arg(1)
+	A_Nonnull_arg(1) A_Check_return A_Ret_maybenull
 	void *(*bridge_allocator_alloc_cb_t)(
 		BRIDGE_ALLOCATOR_ARG(ac),
 		A_When(
@@ -193,7 +193,7 @@ typedef
 	A_Nonnull_arg(1)
 	void (*bridge_allocator_free_cb_t)(
 		BRIDGE_ALLOCATOR_ARG(ac),
-		A_Pre_opt_valid A_Post_ptr_invalid void *mem/*NULL?*/);
+		A_Pre_maybenull A_Post_ptr_invalid void *mem/*NULL?*/);
 
 typedef
 	/* log alloc/free operation backtrace,
