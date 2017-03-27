@@ -799,8 +799,7 @@ A_Use_decl_annotations
 BITBRIDGE_EXPORTS void _bridge_delete_ptr_cont(void **container, BRIDGE_ALLOCATOR_ARG(ac))
 {
 	if (container) {
-		void *mem = *container;
-		ac->free_cb(BRIDGE_PASS_ALLOCATOR(ac), mem);
+		ac->free_cb(BRIDGE_PASS_ALLOCATOR(ac), *container);
 		ac->free_cb(BRIDGE_PASS_ALLOCATOR(ac), container);
 	}
 	bridge_allocator_dec_level(ac);
