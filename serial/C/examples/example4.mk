@@ -6,7 +6,7 @@ ifndef NO_SHARED
 
 VARIANTS  := $(call FILTER_VARIANTS_LIST,DLL,$(BITBRIDGE_DLL_VARIANTS))
 DLL       := $(if $(VARIANTS),bridge_ex4 $(firstword $(VARIANTS)))
-DLLS      := $(BITBRIDGE_LIB_NAME)$(call DLL_VAR_SUFFIX,DLL,$(firstword $(VARIANTS)),$(VARIANTS))
+DLLS      := $(BITBRIDGE_LIB_NAME)
 GENERATED := $(GEN_DIR)/bridge_example4/gen_example.c $(GEN_DIR)/bridge_example4/gen_example.h
 SRC       := $(GEN_DIR)/bridge_example4/gen_example.c
 INCLUDE   := $(GEN_DIR)/bridge_example4 $(TOP)/serial/C/lib
