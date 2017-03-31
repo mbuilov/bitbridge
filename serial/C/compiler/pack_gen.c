@@ -581,11 +581,11 @@ static void generate_code_var_size(FILE *file, const struct struct_def *const s)
 		(void)generate_prototype_variable_size(file, s);
 	FP("\n{");
 	if (s->tail_recursive) {
-		if (long_loop)
-			FP("\n\tswitch (t)");
+		if (long_loop) {
+			FP("\n\tswitch (t)"
+				"\ndefault:");
+		}
 		FP("\n\tfor (;;) {");
-		if (long_loop)
-			FP("\ndefault:");
 	}
 	{
 		const char *offs = long_loop ? "\t\t" : s->tail_recursive ? "\t" : "";
@@ -1045,11 +1045,11 @@ static void generate_code_app_packed(FILE *file, const struct struct_def *const 
 		(void)generate_prototype_append_packed(file, s);
 	FP("\n{");
 	if (s->tail_recursive) {
-		if (long_loop)
-			FP("\n\tswitch (t)");
+		if (long_loop) {
+			FP("\n\tswitch (t)"
+				"\ndefault:");
+		}
 		FP("\n\tfor (;;) {");
-		if (long_loop)
-			FP("\ndefault:");
 	}
 	{
 		const char *offs = long_loop ? "\t\t" : s->tail_recursive ? "\t" : "";
@@ -2992,11 +2992,11 @@ static void generate_code_init_unpacked(FILE *file/*NULL if determining marks*/,
 			FP("\n\tvoid *ze;");
 	}
 	if (s->tail_recursive) {
-		if (long_loop)
-			FP("\n\tswitch (t)");
+		if (long_loop) {
+			FP("\n\tswitch (t)"
+				"\ndefault:");
+		}
 		FP("\n\tfor (;;) {");
-		if (long_loop)
-			FP("\ndefault:");
 	}
 	{
 		const char *const ze = long_loop ? "E" : "";

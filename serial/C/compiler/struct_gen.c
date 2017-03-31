@@ -1261,8 +1261,8 @@ static void generate_code_del_struct(FILE *file, const struct struct_def *s, con
 		if (s->tail_recursive) {
 			if (long_loop) {
 				FP("\n\tswitch (d)"
-					"\n\tfor (;;) {"
-					"\ndefault:");
+					"\ndefault:"
+					"\n\tfor (;;) {");
 			}
 			else
 				FP("\n\tdo {");
