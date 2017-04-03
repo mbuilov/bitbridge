@@ -125,6 +125,10 @@ VENDOR_COPYRIGHT      := Copyright (C) 2008-2017 $(VENDOR_NAME), $(VENDOR_URL)
 
 # bitbridge runtime library name
 BITBRIDGE_LIB_NAME ?= bitbridge$(if $(DEBUG),d)
+BITBRIDGE_JAR_NAME ?= bitbridge
+
+# bitbridge runtime library description
+BITBRIDGE_LIB_DESCRIPTION ?= BitBridge runtime library
 
 # variants of built static library
 #  LINUX:

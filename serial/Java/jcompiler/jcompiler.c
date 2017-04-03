@@ -20,6 +20,10 @@
 #define BIT_BRIDGE_JAVA_COMPILER_MINOR 0
 #define BIT_BRIDGE_JAVA_COMPILER_PATCH 0
 
+#define FREE_SOFTWARE_DESCLAIMER \
+"This is free software; see the source for copying conditions.  There is NO" \
+"\nwarranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE."
+
 #define BITBRIDGE_JAVA_COMPILER_VERSION "BitBridge Java-compiler version "
 
 /* version: [model_ver.compiler_major.compiler_minor] */
@@ -40,7 +44,10 @@ static int usage(const char *program)
 	program += e;
 	fprintf(stderr,
 		"%s"
-		"\n Generates structures declarations and code of init/pack/unpack functions in Java."
+		"\n" BITBRIDGE_C_COMPILER_COPYRIGHT
+		"\n" FREE_SOFTWARE_DESCLAIMER
+		"\n"
+		"\nGenerates structures declarations and code of init/pack/unpack functions in Java."
 		"\nusage:"
 		"\n %s -s<input.sd> [-j<btypes.java>] [-p<pkgname>] [-m<bmodel.md>] [-n]"
 		"\nwhere"

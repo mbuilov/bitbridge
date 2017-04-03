@@ -1,5 +1,3 @@
-ifndef CONFIGURED
-include $(dir $(lastword $(MAKEFILE_LIST)))/../../../config.mk
-endif
+include $(dir $(lastword $(MAKEFILE_LIST)))../../../top.mk
 TO_MAKE := test_jar.mk test.mk
 include $(MTOP)/parallel.mk
