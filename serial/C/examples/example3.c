@@ -54,7 +54,7 @@ static struct person *create_persons_list(unsigned count, struct bridge_allocato
 	for (; n < count; n++) {
 		struct person *p = person_new();
 		if (!p) {
-			printf("failed to allocate new person!");
+			fprintf(stderr, "failed to allocate new person!");
 			break;
 		}
 		*tail = p;
@@ -65,14 +65,14 @@ static struct person *create_persons_list(unsigned count, struct bridge_allocato
 			(void)sprintf(name_buf + str_buf_length("person "), "%u", n & 1048575);
 			p->name = bridge_copy_str(name_buf);
 			if (!p->name) {
-				printf("failed to copy string constant!");
+				fprintf(stderr, "failed to copy string constant!");
 				break;
 			}
 		}
 		if (!(n % 3)) {
 			struct hobby *hobby = person_new_ohobby(p);
 			if (!hobby) {
-				printf("failed to allocate hobby structure!");
+				fprintf(stderr, "failed to allocate hobby structure!");
 				break;
 			}
 			/* string constant may always be referenced - it never will be deleted */
@@ -84,7 +84,7 @@ static struct person *create_persons_list(unsigned count, struct bridge_allocato
 				case 4: hobby->name = bridge_ref_str_const("swimming"); break;
 			}
 			if (!hobby->name) {
-				printf("failed to reference hobby name!");
+				fprintf(stderr, "failed to reference hobby name!");
 				break;
 			}
 		}
@@ -92,7 +92,7 @@ static struct person *create_persons_list(unsigned count, struct bridge_allocato
 		{
 			int (*birth_month_year)[2] = person_new_rbirth_month_year(p);
 			if (!birth_month_year) {
-				printf("failed to allocate birth_day_year!");
+				fprintf(stderr, "failed to allocate birth_day_year!");
 				break;
 			}
 			(*birth_month_year)[0] = (int)((n*3) % 12);
@@ -112,37 +112,37 @@ static int compare_persons_lists(const struct person *p1, const struct person *p
 {
 	for (;;) {
 		if (!p1 != !p2) {
-			printf("wrong number of persons in deserialized list!");
+			fprintf(stderr, "wrong number of persons in deserialized list!");
 			return -1;
 		}
 		if (!p1)
 			break;
 		if (p1->id != p2->id) {
-			printf("wrong deserialized person id!");
+			fprintf(stderr, "wrong deserialized person id!");
 			return -1;
 		}
 		if (strcmp(p1->name, p2->name)) {
-			printf("wrong deserialized person name!");
+			fprintf(stderr, "wrong deserialized person name!");
 			return -1;
 		}
 		if (!p1->ohobby != !p2->ohobby) {
-			printf("wrong person hobby in deserialized list");
+			fprintf(stderr, "wrong person hobby in deserialized list");
 			return -1;
 		}
 		if (p1->ohobby && strcmp(p1->ohobby->name, p2->ohobby->name)) {
-			printf("wrong hobby name in deserialized list");
+			fprintf(stderr, "wrong hobby name in deserialized list");
 			return -1;
 		}
 		if (p1->male != p2->male) {
-			printf("wrong male bit in deserialized list");
+			fprintf(stderr, "wrong male bit in deserialized list");
 			return -1;
 		}
 		if ((*p1->rbirth_month_year)[0] != (*p2->rbirth_month_year)[0]) {
-			printf("wrong birth month in deserialized list");
+			fprintf(stderr, "wrong birth month in deserialized list");
 			return -1;
 		}
 		if ((*p1->rbirth_month_year)[1] != (*p2->rbirth_month_year)[1]) {
-			printf("wrong birth year in deserialized list");
+			fprintf(stderr, "wrong birth year in deserialized list");
 			return -1;
 		}
 		p1 = p1->onext;
@@ -181,18 +181,18 @@ int main(int argc, char *argv[])
 			size_t packed_size;
 			void *mem = serialize(persons, &packed_size, BRIDGE_DEFAULT_ALLOCATOR);
 			if (!mem) {
-				printf("failed to serialize!");
+				fprintf(stderr, "failed to serialize!");
 				goto err1;
 			}
 			{
 				const void *from = mem;
 				struct person *persons2 = deserialize(&from, packed_size, BRIDGE_DEFAULT_ALLOCATOR);
 				if (!persons2) {
-					printf("failed to deserialize!");
+					fprintf(stderr, "failed to deserialize!");
 					goto err2;
 				}
 				if (from != (char*)mem + packed_size) {
-					printf("wrong packed size!");
+					fprintf(stderr, "wrong packed size!");
 					goto err3;
 				}
 				if (compare_persons_lists(persons, persons2))
@@ -220,7 +220,7 @@ err0:
 	#undef BRIDGE_DEFAULT_ALLOCATOR
 	bridge_memstack_ref_allocator_destroy(&mrac);
 	if (err)
-		printf("\nfailed\n");
+		fprintf(stderr, "\nfailed\n");
 	else if (argc < 3)
 		printf("\nok\n");
 	(void)argv;

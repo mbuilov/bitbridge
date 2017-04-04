@@ -54,11 +54,11 @@ static bool init_car(struct car &c, int k, struct bridge_allocator &ac)
 		2 == (k & 3) ? "linfan" :
 		"lada"
 	))) {
-		printf("failed to take a reference to string constant!");
+		fprintf(stderr, "failed to take a reference to string constant!");
 		return false;
 	}
 	if (!c.new_rmodel(ac)) {
-		printf("failed to allocate string container!");
+		fprintf(stderr, "failed to allocate string container!");
 		return false;
 	}
 	if (!c.rmodel_set(ac.ref_str_const(
@@ -66,7 +66,7 @@ static bool init_car(struct car &c, int k, struct bridge_allocator &ac)
 		1 == (k % 3) ? "hatchback" :
 		"cabriolet"
 	))) {
-		printf("failed to take a reference to string constant!");
+		fprintf(stderr, "failed to take a reference to string constant!");
 		return false;
 	}
 	c.set_diesel(0 == (k & 1)).
@@ -78,7 +78,7 @@ static struct person *create_person(int id, struct bridge_allocator &ac)
 {
 	struct person *p = person::ac_new(ac);
 	if (!p) {
-		printf("failed to allocate new person!");
+		fprintf(stderr, "failed to allocate new person!");
 		return NULL;
 	}
 	p->set_id(id);
@@ -86,7 +86,7 @@ static struct person *create_person(int id, struct bridge_allocator &ac)
 		char name_buf[256];
 		(void)sprintf(name_buf, "person %d", id);
 		if (!p->set_name(ac.copy_str(name_buf))) {
-			printf("failed to copy string!");
+			fprintf(stderr, "failed to copy string!");
 			goto err;
 		}
 	}
@@ -94,7 +94,7 @@ static struct person *create_person(int id, struct bridge_allocator &ac)
 		size_t n_cars = (unsigned)id % 11;
 		if (n_cars) {
 			if (!p->new_acars(n_cars, ac)) {
-				printf("failed to allocate array of cars!");
+				fprintf(stderr, "failed to allocate array of cars!");
 				goto err;
 			}
 			{
@@ -107,7 +107,7 @@ static struct person *create_person(int id, struct bridge_allocator &ac)
 	}
 	p->set_male(!!(id & 1));
 	if (!p->new_rbirth_month_year(ac)) {
-		printf("failed to allocate birth_day_year!");
+		fprintf(stderr, "failed to allocate birth_day_year!");
 		goto err;
 	}
 	p->rbirth_month_year_set(0, (short)((id*3) % 12)).
@@ -123,7 +123,7 @@ static bool create_tree(struct tree **parent, int id, unsigned count, struct bri
 	for (;;) {
 		struct tree *t = tree::ac_new(ac);
 		if (!t) {
-			printf("failed to allocate new tree!");
+			fprintf(stderr, "failed to allocate new tree!");
 			return false;
 		}
 		*parent = t;
@@ -145,19 +145,19 @@ static bool create_tree(struct tree **parent, int id, unsigned count, struct bri
 static bool compare_cars(const struct car &c1, const struct car &c2)
 {
 	if (strcmp(c1.get_name(), c2.get_name())) {
-		printf("wrong deserialized car name!");
+		fprintf(stderr, "wrong deserialized car name!");
 		return false;
 	}
 	if (strcmp(c1.rmodel_get(), c2.rmodel_get())) {
-		printf("wrong deserialized model name!");
+		fprintf(stderr, "wrong deserialized model name!");
 		return false;
 	}
 	if (c1.get_diesel() != c2.get_diesel()) {
-		printf("wrong deserialized diesel property!");
+		fprintf(stderr, "wrong deserialized diesel property!");
 		return false;
 	}
 	if (c1.get_turbo() != c2.get_turbo()) {
-		printf("wrong deserialized turbo property!");
+		fprintf(stderr, "wrong deserialized turbo property!");
 		return false;
 	}
 	return true;
@@ -166,15 +166,15 @@ static bool compare_cars(const struct car &c1, const struct car &c2)
 static bool compare_persons(const struct person &p1, const struct person &p2)
 {
 	if (p1.get_id() != p2.get_id()) {
-		printf("wrong deserialized person id!");
+		fprintf(stderr, "wrong deserialized person id!");
 		return false;
 	}
 	if (strcmp(p1.get_name(), p2.get_name())) {
-		printf("wrong deserialized person name!");
+		fprintf(stderr, "wrong deserialized person name!");
 		return false;
 	}
 	if (p1.get_acars_count() != p2.get_acars_count()) {
-		printf("wrong number of cars!");
+		fprintf(stderr, "wrong number of cars!");
 		return false;
 	}
 	{
@@ -184,15 +184,15 @@ static bool compare_persons(const struct person &p1, const struct person &p2)
 		}
 	}
 	if (p1.get_male() != p2.get_male()) {
-		printf("wrong deserialized male property()!");
+		fprintf(stderr, "wrong deserialized male property()!");
 		return false;
 	}
 	if (p1.rbirth_month_year_get(0) != p2.rbirth_month_year_get(0)) {
-		printf("wrong deserialized birth month!");
+		fprintf(stderr, "wrong deserialized birth month!");
 		return false;
 	}
 	if (p1.rbirth_month_year_get(1) != p2.rbirth_month_year_get(1)) {
-		printf("wrong deserialized birth year!");
+		fprintf(stderr, "wrong deserialized birth year!");
 		return false;
 	}
 	return true;
@@ -202,7 +202,7 @@ static bool compare_trees(const struct tree *t1, const struct tree *t2)
 {
 	for (;;) {
 		if (!t1 != !t2) {
-			printf("wrong number of persons in deserialized tree!");
+			fprintf(stderr, "wrong number of persons in deserialized tree!");
 			return false;
 		}
 		if (!t1)
@@ -263,18 +263,18 @@ int main(int argc, char *argv[])
 			size_t packed_size;
 			void *mem = serialize(*tree, packed_size, mrac.ac);
 			if (!mem) {
-				printf("failed to serialize!");
+				fprintf(stderr, "failed to serialize!");
 				goto err1;
 			}
 			{
 				const void *from = mem;
 				struct tree *tree2 = deserialize(&from, packed_size, mrac.ac);
 				if (!tree2) {
-					printf("failed to deserialize!");
+					fprintf(stderr, "failed to deserialize!");
 					goto err2;
 				}
 				if (from != (char*)mem + packed_size) {
-					printf("wrong packed size!");
+					fprintf(stderr, "wrong packed size!");
 					goto err3;
 				}
 				if (!compare_trees(tree, tree2))
@@ -301,7 +301,7 @@ err0:
 	}
 	mrac.destroy();
 	if (err)
-		printf("\nfailed\n");
+		fprintf(stderr, "\nfailed\n");
 	else if (argc < 3)
 		printf("\nok\n");
 	(void)argv;

@@ -62,36 +62,36 @@ int main(int argc, char *argv[])
 		struct person p;
 		person_init(&p);
 		p.id = 123;
-		/* string constant may always be referenced - it never will be deleted */
+		/* take a reference to string constant, if allocator allows references, else - copy the string */
 		p.name = bridge_ac_ref_str_buf("person name", &hac.ac);
 		if (!p.name) {
-			printf("failed to copy string constant!");
+			fprintf(stderr, "failed to copy string constant!");
 			goto err1;
 		}
 		{
 			size_t packed_size;
 			void *mem = serialize(&p, &packed_size, &hac.ac);
 			if (!mem) {
-				printf("failed to serialize!");
+				fprintf(stderr, "failed to serialize!");
 				goto err1;
 			}
 			{
 				const void *from = mem;
 				struct person *p2 = deserialize(&from, packed_size, &hac.ac);
 				if (!p2) {
-					printf("failed to deserialize!");
+					fprintf(stderr, "failed to deserialize!");
 					goto err2;
 				}
 				if (from != (char*)mem + packed_size) {
-					printf("wrong packed size!");
+					fprintf(stderr, "wrong packed size!");
 					goto err3;
 				}
 				if (p.id != p2->id) {
-					printf("wrong deserialized person id!");
+					fprintf(stderr, "wrong deserialized person id!");
 					goto err3;
 				}
 				if (strcmp(p.name, p2->name)) {
-					printf("wrong deserialized person name!");
+					fprintf(stderr, "wrong deserialized person name!");
 					goto err3;
 				}
 				if (argc < 2)
@@ -108,7 +108,7 @@ err1:
 	}
 	bridge_heap_allocator_destroy(&hac);
 	if (err)
-		printf("\nfailed\n");
+		fprintf(stderr, "\nfailed\n");
 	else if (argc < 3)
 		printf("\nok\n");
 	(void)argv;
