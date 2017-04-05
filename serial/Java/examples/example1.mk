@@ -4,8 +4,8 @@ include $(MTOP)/exts/jtest.mk
 
 JAR       := bridge_example1
 JARS      := $(BITBRIDGE_JAR_NAME)
-GENERATED := $(GEN_DIR)/bridge_example1/gen_example.java
-JSRC      := $(GEN_DIR)/bridge_example1/gen_example.java example1.java
+GENERATED := $(GEN_DIR)/bridge_example1/gen_example1.java
+JSRC      := $(GEN_DIR)/bridge_example1/gen_example1.java example1.java
 
 # add generated file to build
 $(call ADD_GENERATED,$(GENERATED))
