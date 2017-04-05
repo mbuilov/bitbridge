@@ -12,10 +12,6 @@ ifneq ($(filter WINXX,$(OS)),)
 TO_MAKE += version
 endif
 
-ifneq ($(filter check tests clean,$(MAKECMDGOALS)),)
-TO_MAKE += serial/tests.mk
-endif
-
 ifeq (LINUX,$(OS))
 
 PREFIX         ?= /usr/local
