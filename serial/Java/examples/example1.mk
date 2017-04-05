@@ -17,6 +17,6 @@ $(call MULTI_TARGET,$(GENERATED),$(BIN_DIR)/bbcompj$(EXE_SUFFIX) example1.sd,$$(
   ospath,$$<) -s$$(call ospath,$$(word 2,$$^)) -j$(call ospath,$(GENERATED)))
 
 # specify that built JAR must be tested
-$(DO_TEST_JAR)
+$(call DO_TEST_JAR,example1)
 
 $(DEFINE_TARGETS)
