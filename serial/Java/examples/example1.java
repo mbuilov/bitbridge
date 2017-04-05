@@ -19,15 +19,15 @@ import static bitbridge.Bridge.BridgeIterator;
 
 final class example1 {
 
-	static byte[] serialize(gen_example.person p) throws BridgeException {
+	static byte[] serialize(gen_example1.person p) throws BridgeException {
 		return p.pack(/*head:*/0, /*tail:*/0, /*big:*/false);
 	}
 
-	static gen_example.person deserialize(BridgeIterator it, byte[] mem) throws BridgeException {
-		return gen_example.person.unpack(it, mem, mem.length, /*big:*/false);
+	static gen_example1.person deserialize(BridgeIterator it, byte[] mem) throws BridgeException {
+		return gen_example1.person.unpack(it, mem, mem.length, /*big:*/false);
 	}
 
-	static void print_person(gen_example.person p) {
+	static void print_person(gen_example1.person p) {
 		System.out.print("\nperson:");
 		System.out.print("\n\tid = " + p.get_id());
 		System.out.print("\n\tname = " + p.get_name());
@@ -36,7 +36,7 @@ final class example1 {
 	public static void main(String[] args) {
 		boolean err = true;
 		{
-			gen_example.person p = new gen_example.person();
+			gen_example1.person p = new gen_example1.person();
 			p.set_id(123);
 			p.set_name("person name");
 			{
@@ -48,7 +48,7 @@ final class example1 {
 					System.err.print("failed to serialize, error: " + ex);
 				}
 				if (mem != null) {
-					gen_example.person p2 = null;
+					gen_example1.person p2 = null;
 					BridgeIterator it = new BridgeIterator(0);
 					try {
 						p2 = deserialize(it, mem);
@@ -73,7 +73,7 @@ final class example1 {
 			}
 		}
 		if (err)
-			System.out.print("\nfailed\n");
+			System.err.print("\nfailed\n");
 		else if (args.length < 3)
 			System.out.print("\nok\n");
 	}
