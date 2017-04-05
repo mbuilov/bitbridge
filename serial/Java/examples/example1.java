@@ -39,7 +39,7 @@ final class example1 {
 			gen_example.person p = new gen_example.person();
 			p.set_id(123);
 			p.set_name("person name");
-       {
+			{
 				byte[] mem = null;
 				try {
 					mem = serialize(p);
@@ -54,7 +54,7 @@ final class example1 {
 						p2 = deserialize(it, mem);
 					}
 					catch (BridgeException ex) {
-						System.err.print("failed to serialize, error: " + ex);
+						System.err.print("failed to deserialize, error: " + ex);
 					}
 					if (p2 != null) {
 						if (mem.length != it.at)
