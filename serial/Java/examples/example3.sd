@@ -1,0 +1,17 @@
+#################################################################################
+# bitbridge - another serialization/rpc mechanism
+# Copyright (C) 2008-2017 Michael M. Builov, https://github.com/mbuilov/bitbridge
+# Licensed under GPL version 3 or any later version, see COPYING
+#################################################################################
+
+# list of persons
+person:
+	int id
+	str name
+	hobby *hobby
+	bit male
+	person *next
+	ppint [2] birth_month_year
+
+hobby:
+	pstr name
