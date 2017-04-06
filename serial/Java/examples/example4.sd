@@ -1,0 +1,24 @@
+#################################################################################
+# bitbridge - another serialization/rpc mechanism
+# Copyright (C) 2008-2017 Michael M. Builov, https://github.com/mbuilov/bitbridge
+# Licensed under GPL version 3 or any later version, see COPYING
+#################################################################################
+
+person:
+	int id
+	str name
+	car[] cars
+	bit male
+	pshort[2] birth_month_year
+
+car:
+	pstr name
+	str[1] model
+	bit diesel
+	bit turbo
+
+# tree of persons
+tree:
+	person[1] p
+	tree *left
+	tree *right
