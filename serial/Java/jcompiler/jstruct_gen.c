@@ -150,7 +150,7 @@ static void print_structure_fields(const struct struct_def *s, FILE *file)
 							s->s_name, (*f)->name, field_type, (*f)->name, (*f)->name, (*f)->name);
 						FR7("\n\t\t/** allocate and set new value of array {@link #%s}"
 							"\n\t\t * @param length_ length of allocated array"
-							"\n\t\t * @return new value of array {@link #%s} */"
+							"\n\t\t * @return new value of array {@link #%s} which should be initialized by the caller */"
 							"\n\t\tpublic %s[] new_%s(int length_) {"
 							"\n\t\t\t%s = new %s[length_];"
 							"\n\t\t\treturn %s;"
@@ -190,7 +190,7 @@ static void print_structure_fields(const struct struct_def *s, FILE *file)
 							s->s_name, (*f)->name, (*f)->name, (*f)->name, (*f)->name, (*f)->name, (*f)->name, (*f)->name);
 						FR11("\n\t\t/** allocate and set new values of bits array {@link #%s} and {@link #%s_bit_count}"
 							"\n\t\t * @param %s_bit_count_ bits capacity of allocated bits array"
-							"\n\t\t * @return new value of bits array {@link #%s} */"
+							"\n\t\t * @return new value of bits array {@link #%s} which should be initialized by the caller */"
 							"\n\t\tpublic byte[] new_%s(int %s_bit_count_) {"
 							"\n\t\t\t%s = new byte[bridge_bit_array_size(%s_bit_count_)];"
 							"\n\t\t\t%s_bit_count = %s_bit_count_;"
@@ -245,7 +245,7 @@ _required_user_type:
 								(*f)->name, s->s_name, (*f)->name, (*f)->type, (*f)->name,
 								(F_OPTIONAL == (*f)->f_power) ? "null?" : "!=null", (*f)->name, (*f)->name);
 							FR9("\n\t\t/** allocate and set new value of %s reference {@link #%s}"
-								"\n\t\t * @return new value of %s reference {@link #%s} */"
+								"\n\t\t * @return new value of %s reference {@link #%s} which should be initialized by the caller */"
 								"\n\t\tpublic %s new_%s() {"
 								"\n\t\t\t%s = new %s();"
 								"\n\t\t\treturn %s;"
@@ -380,7 +380,7 @@ _required_user_type:
 							"\n\t\t}",
 							(*f)->name, (*f)->name, (*f)->name, s->s_name, (*f)->name, field_type, pwr, (*f)->name, (*f)->name, (*f)->name);
 						FR9("\n\t\t/** allocate and set new value of {@link #%s} - fixed-sized array of {@link #%s_length_} elements"
-							"\n\t\t * @return new value of {@link #%s} */"
+							"\n\t\t * @return new value of {@link #%s} which should be initialized by the caller */"
 							"\n\t\tpublic %s[] new_%s() {"
 							"\n\t\t\t%s = new %s[%u];"
 							"\n\t\t\treturn %s;"
@@ -464,7 +464,7 @@ _required_user_type:
 							(*f)->name, (*f)->name, (*f)->name, (*f)->name, s->s_name, (*f)->name, bb, (*f)->name, (*f)->name, (*f)->name);
 						FR8("\n\t\t/** allocate and set new value of {@link #%s} - "
 							"fixed-sized array of {@link #%s_bit_count_} bits ({@link #%s_length_} bytes)"
-							"\n\t\t * @return new value of {@link #%s} */"
+							"\n\t\t * @return new value of {@link #%s} which should be initialized by the caller */"
 							"\n\t\tpublic byte[] new_%s() {"
 							"\n\t\t\t%s = new byte[%u];"
 							"\n\t\t\treturn %s;"
