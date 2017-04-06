@@ -22,6 +22,7 @@ SDEPS     := $(call FORM_SDEPS,example3.c,$(GEN_DIR)/bridge_example3/gen_example
 # specify path for searching libraries on runtime for built executable
 RPATH     := $(LIB_DIR)
 
+# import symbols from bitbridge dll
 DEFINES   := BITBRIDGE_EXPORTS=$(DLL_IMPORTS_DEFINE)
 
 ifdef DEBUG
@@ -38,7 +39,7 @@ $(call MULTI_TARGET,$(GENERATED),$(BIN_DIR)/bbcompc$(EXE_SUFFIX) example3.sd,$$(
   2,$$^)) -c$(call ospath,$(word 1,$(GENERATED))) -h$(call ospath,$(word 2,$(GENERATED))))
 
 # specify which variant of memstack static library is needed for built test executable
-# append directory containing common headers to INCLUDE variable
+# append directory containing common headers to SYSINCLUDE variable
 NEED_LIBMEMSTACK := EXE LIB $(lastword $(EXE))
 USE := memstack.mk cmn_headers.mk
 
