@@ -54,8 +54,8 @@ final class example3 {
 			p.set_male((n & 1) != 0);
 			{
 				int[] birth_month_year = p.new_rbirth_month_year();
-				birth_month_year[0] = (int)((n*3) % 12);
-				birth_month_year[1] = (int)((n*2) % 9999);
+				birth_month_year[0] = (n*3) % 12;
+				birth_month_year[1] = (n*2) % 9999;
 			}
 		}
 		return head;
@@ -81,7 +81,7 @@ final class example3 {
 				System.err.print("wrong person hobby in deserialized list");
 				return false;
 			}
-			if (p1.get_ohobby() != null && !p1.get_ohobby().get_name().qeuals(p2.get_ohobby().get_name())) {
+			if (p1.get_ohobby() != null && !p1.get_ohobby().get_name().equals(p2.get_ohobby().get_name())) {
 				System.err.print("wrong hobby name in deserialized list");
 				return false;
 			}
@@ -110,7 +110,7 @@ final class example3 {
 			System.out.print("\n\tname = " + persons.get_name());
 			if (persons.get_ohobby() != null)
 				System.out.print("\n\thobby = " + persons.get_ohobby().get_name());
-			System.out.print("\n\tgender = " + persons.get_male() ? "male" : "female");
+			System.out.print("\n\tgender = " + (persons.get_male() ? "male" : "female"));
 			System.out.print("\n\tbirth month = " + persons.get_rbirth_month_year()[0]);
 			System.out.print("\n\tbirth year = " + persons.get_rbirth_month_year()[1]);
 			persons = persons.get_onext();
