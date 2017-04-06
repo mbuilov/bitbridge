@@ -109,7 +109,8 @@ public class TestFn1 {
 				_check(null != so.ab && 0 == so.ab.length && 0 == so.ab_bit_count);
 			}
 			{
-				si.new_ab(5).
+				si.new_ab(5);
+				si.
 					ab_set_bit(0).
 					ab_set_bit(2).
 					ab_set_bit(4);
@@ -127,7 +128,8 @@ public class TestFn1 {
 			}
 			{
 				int bit_counter = 0;
-				si.new_ab(9).
+				si.new_ab(9);
+				si.
 					ab_set_bit(bit_counter++, true).
 					ab_set_bit(bit_counter++, false).
 					ab_set_bit(bit_counter++, false).
@@ -197,17 +199,18 @@ public class TestFn1 {
 				_check(null != so.ab && 0 == so.ab.length);
 			}
 			{
-				si.new_ab(3).
-					ab_set(0, (byte)91).
-					ab_set(1, (byte)112).
-					ab_set(2, (byte)122);
+				si.set_ab(new byte[] {
+					(byte)91,
+					(byte)112,
+					(byte)122
+				});
 				{
 					s6 so = repack(si._type_idx_, si, 4, big);
 					_check(so.ab != null && si.ab.length == so.ab.length);
 					_check(
-						so.ab[0] == si.ab[0] &&
-						so.ab[1] == si.ab[1] &&
-						so.ab[2] == si.ab[2]
+						so.ab[0] == (byte)91 &&
+						so.ab[1] == (byte)112 &&
+						so.ab[2] == (byte)122
 					);
 				}
 			}
@@ -259,23 +262,23 @@ public class TestFn1 {
 				_check(null != so.as && 0 == so.as.length);
 			}
 			{
-				si.new_as(5).
-					as_set(0, (short)12345).
-					as_set(1, (short)21212).
-					as_set(2, (short)32321).
-					as_set(3, (short)11223).
-					as_set(4, (short)15556);
-				{
-					s9 so = repack(si._type_idx_, si, 11, big);
-					_check(so.as != null && so.as.length == si.as.length);
-					_check(
-						so.as[0] == si.as[0] &&
-						so.as[1] == si.as[1] &&
-						so.as[2] == si.as[2] &&
-						so.as[3] == si.as[3] &&
-						so.as[4] == si.as[4]
-					);
-				}
+				short[] as = si.new_as(5);
+				as[0] = (short)12345;
+				as[1] = (short)21212;
+				as[2] = (short)32321;
+				as[3] = (short)11223;
+				as[4] = (short)15556;
+			}
+			{
+				s9 so = repack(si._type_idx_, si, 11, big);
+				_check(so.as != null && so.as.length == si.as.length);
+				_check(
+					so.as[0] == (short)12345 &&
+					so.as[1] == (short)21212 &&
+					so.as[2] == (short)32321 &&
+					so.as[3] == (short)11223 &&
+					so.as[4] == (short)15556
+				);
 			}
 		}
 		_end();
@@ -411,22 +414,20 @@ public class TestFn1 {
 				_check(null != so.al && 0 == so.al.length);
 			}
 			{
-				si.new_al(66);
+				long[] al = si.new_al(66);
+				for (int i = 0; i < 66; i++)
+					al[i] = (1l << (i & (64 - 1)))^i;
+			}
+			{
+				s15 so = repack(si._type_idx_, si, 1 + si.al.length*8, big);
+				_check(null != so.al && so.al.length == si.al.length);
 				{
-					for (int i = 0; i < 66; i++)
-						si.al[i] = (1l << (i & (64 - 1)))^i;
-				}
-				{
-					s15 so = repack(si._type_idx_, si, 1 + si.al.length*8, big);
-					_check(null != so.al && so.al.length == si.al.length);
-					{
-						int i = 0;
-						for (; i < 66; i++) {
-							if (so.al[i] != si.al[i])
-								break;
-						}
-						_check(i == 66);
+					int i = 0;
+					for (; i < 66; i++) {
+						if (so.al[i] != si.al[i])
+							break;
 					}
+					_check(i == 66);
 				}
 			}
 		}
@@ -780,8 +781,7 @@ public class TestFn1 {
 			x3 si = new x3();
 			_check(null == si.rt);
 			{
-				si.new_rt().
-					rt_set((byte)77);
+				si.new_rt()[0] = (byte)77;
 				{
 					x3 so = repack(si._type_idx_, si, 1, big);
 					_check(null != so.rt && si.rt.length == so.rt.length);
@@ -812,8 +812,7 @@ public class TestFn1 {
 			x5 si = new x5();
 			_check(null == si.rt);
 			{
-				si.new_rt().
-					rt_set((short)32767);
+				si.new_rt()[0] = (short)32767;
 				{
 					x5 so = repack(si._type_idx_, si, 2, big);
 					_check(null != so.rt);
@@ -821,8 +820,7 @@ public class TestFn1 {
 				}
 			}
 			{
-				si.new_rt().
-					rt_set((short)-32768);
+				si.new_rt()[0] = (short)-32768;
 				{
 					x5 so = repack(si._type_idx_, si, 2, big);
 					_check(null != so.rt);
@@ -837,14 +835,14 @@ public class TestFn1 {
 			x6 si = new x6();
 			_check(null == si.rt);
 			{
-				si.new_rt().
-					rt_set(0, (short)1).
-					rt_set(1, (short)-1);
+				short[] rt = si.new_rt();
+				rt[0] = (short)1;
+				rt[1] = (short)-1;
 				{
 					x6 so = repack(si._type_idx_, si, 4, big);
 					_check(null != so.rt);
-					_check(si.rt[0] == so.rt[0]);
-					_check(si.rt[1] == so.rt[1]);
+					_check(so.rt[0] == (short)1);
+					_check(so.rt[1] == (short)-1);
 				}
 			}
 		}
@@ -855,8 +853,7 @@ public class TestFn1 {
 			x7 si = new x7();
 			_check(null == si.rt);
 			{
-				si.new_rt().
-					rt_set(-234);
+				si.new_rt()[0] = -234;
 				{
 					x7 so = repack(si._type_idx_, si, 4, big);
 					_check(null != so.rt);
@@ -864,8 +861,7 @@ public class TestFn1 {
 				}
 			}
 			{
-				si.new_rt().
-					rt_set(-233232768);
+				si.new_rt()[0] = -233232768;
 				{
 					x7 so = repack(si._type_idx_, si, 4, big);
 					_check(null != so.rt);
@@ -904,8 +900,7 @@ public class TestFn1 {
 				}
 			}
 			{
-				si.new_rt().
-					rt_set(-23247237433232768l);
+				si.new_rt()[0] = -23247237433232768l;
 				{
 					x9 so = repack(si._type_idx_, si, 8, big);
 					_check(null != so.rt);
@@ -936,7 +931,7 @@ public class TestFn1 {
 			x11 si = new x11();
 			_check(null == si.rt);
 			{
-				si.rt = new float[] {2311934.34345f};
+				si.set_rt(new float[] {2311934.34345f});
 				{
 					x11 so = repack(si._type_idx_, si, 4, big);
 					_check(null != so.rt);
@@ -944,8 +939,7 @@ public class TestFn1 {
 				}
 			}
 			{
-				si.new_rt().
-					rt_set(-0.345112f);
+				si.new_rt()[0] = -0.345112f;
 				{
 					x11 so = repack(si._type_idx_, si, 4, big);
 					_check(null != so.rt);
@@ -960,7 +954,8 @@ public class TestFn1 {
 			x12 si = new x12();
 			_check(null == si.rt);
 			{
-				si.new_rt().
+				si.new_rt();
+				si.
 					rt_set(0, 23545.1312f).
 					rt_set(1, -7328.44234f);
 				{
@@ -978,8 +973,7 @@ public class TestFn1 {
 			x13 si = new x13();
 			_check(null == si.rt);
 			{
-				si.new_rt().
-					rt_set(23284823311934.343234224345);
+				si.new_rt(23284823311934.343234224345);
 				{
 					x13 so = repack(si._type_idx_, si, 8, big);
 					_check(null != so.rt);
@@ -1030,8 +1024,7 @@ public class TestFn1 {
 				}
 			}
 			{
-				si.new_rt().
-					rt_set("");
+				si.new_rt("");
 				{
 					x15 so = repack(si._type_idx_, si, 1, big);
 					_check(null != so.rt && 1 == so.rt.length);
@@ -1506,8 +1499,7 @@ public class TestFn1 {
 			px5 si = new px5();
 			_check(null == si.rt);
 			{
-				si.new_rt().
-					rt_set((short)127);
+				si.new_rt((short)127);
 				{
 					px5 so = repack(si._type_idx_, si, 2, big);
 					_check(null != so.get_rt() && 1 == so.rt.length);
@@ -1530,9 +1522,10 @@ public class TestFn1 {
 			px6 si = new px6();
 			_check(null == si.get_rt());
 			{
-				si.new_rt().
-					rt_set(0, (short)2000).
-					rt_set(1, (short)-64);
+				si.new_rt(
+					(short)2000,
+					(short)-64
+				);
 				{
 					px6 so = repack(si._type_idx_, si, 3, big);
 					_check(null != so.rt && 2 == so.rt.length);
@@ -1571,9 +1564,7 @@ public class TestFn1 {
 			px8 si = new px8();
 			_check(null == si.get_rt());
 			{
-				si.new_rt().
-					rt_set(0, 1234783245).
-					rt_set(1, -7);
+				si.new_rt(1234783245, -7);
 				{
 					px8 so = repack(si._type_idx_, si, 6, big);
 					_check(null != so.rt && 2 == so.rt.length);
@@ -1597,8 +1588,7 @@ public class TestFn1 {
 				}
 			}
 			{
-				si.new_rt().
-					rt_set(-23247237433232768l);
+				si.new_rt(-23247237433232768l);
 				{
 					px9 so = repack(si._type_idx_, si, 8, big);
 					_check(null != so.rt && 1 == so.rt.length);
@@ -1675,9 +1665,7 @@ public class TestFn1 {
 			}
 			{
 				String teststr = "xxyynn";
-				si.new_rt().
-					rt_set(0, teststr).
-					rt_set(1, "xxy");
+				si.new_rt(teststr, "xxy");
 				{
 					px16 so = repack(si._type_idx_, si,
 						si.rt[0].length() + 1/*'\0'*/ + si.rt[1].length() + 1/*'\0'*/, big);
@@ -2023,8 +2011,7 @@ public class TestFn1 {
 				}
 			}
 			{
-				si.new_rt().
-					rt_set((short)-32);
+				si.new_rt((short)-32);
 				{
 					ppx5 so = repack(si._type_idx_, si, 3, big);
 					_check(null != so.rt && 1 == so.rt.length);
@@ -2055,8 +2042,7 @@ public class TestFn1 {
 			ppx7 si = new ppx7();
 			_check(null == si.rt);
 			{
-				si.new_rt().
-					rt_set(837584);
+				si.new_rt(837584);
 				{
 					ppx7 so = repack(si._type_idx_, si, 3, big);
 					_check(null != so.rt && 1 == so.rt.length);
@@ -2079,9 +2065,7 @@ public class TestFn1 {
 			ppx8 si = new ppx8();
 			_check(null == si.rt);
 			{
-				si.new_rt().
-					rt_set(0, 1234783245).
-					rt_set(1, -7);
+				si.new_rt(1234783245, -7);
 				{
 					ppx8 so = repack(si._type_idx_, si, 10, big);
 					_check(null != so.rt);
@@ -2097,8 +2081,7 @@ public class TestFn1 {
 			ppx9 si = new ppx9();
 			_check(null == si.rt);
 			{
-				si.new_rt().
-					rt_set(0xffffceffffl);
+				si.new_rt(0xffffceffffl);
 				{
 					ppx9 so = repack(si._type_idx_, si, 6, big);
 					_check(null != so.rt && 1 == so.rt.length);
@@ -2106,8 +2089,7 @@ public class TestFn1 {
 				}
 			}
 			{
-				si.new_rt().
-					rt_set(-23247237433232768l);
+				si.new_rt(-23247237433232768l);
 				{
 					ppx9 so = repack(si._type_idx_, si, 9, big);
 					_check(null != so.rt && 1 == so.rt.length);
@@ -2286,16 +2268,16 @@ public class TestFn1 {
 			{
 				si.b = 24;
 				si.new_rc().
-					get_rc().
-						set_i(243454).
-						set_l(-1022010155451104042l);
-				si.new_rd().
-					rd_set(0, new s30().
+					set_i(243454).
+					set_l(-1022010155451104042l);
+				si.new_rd(
+					new s30().
 						set_i(243455).
-						set_l(-1022010155451104043l)).
-					rd_set(1, new s30().
+						set_l(-1022010155451104043l),
+					new s30().
 						set_i(243456).
-						set_l(-1022010155451104044l));
+						set_l(-1022010155451104044l)
+				);
 				{
 					s31 so = repack(si._type_idx_, si, 38, big);
 					_check(null != so.aa && 0 == so.aa.length);
@@ -2312,13 +2294,14 @@ public class TestFn1 {
 			}
 			{
 				si.set_b((byte)22);
-				si.new_aa(2).
-					aa_set(0, new s30().
+				si.set_aa(new s30[] {
+					new s30().
 						set_i(112233500).
-						set_l(1234567890451104042l)).
-					aa_set(1, new s30().
+						set_l(1234567890451104042l),
+					new s30().
 						set_i(445566778).
-						set_l(1234567847365987432l));
+						set_l(1234567847365987432l)
+				});
 				{
 					s31 so = repack(si._type_idx_, si, 62, big);
 					_check(null != so.aa && so.aa.length == si.aa.length);
@@ -2359,33 +2342,36 @@ public class TestFn1 {
 			{
 				si.f = 22.3442f;
 				si.
-					new_aa1(2).
-						aa1_set(0, new s32().
-							set_c((byte)45)).
-						aa1_set(1, new s32().
-							set_c((byte)53)).
-					new_aa2(1).
-						aa2_set(0, new s33().
-							set_u(4545452)).
-					new_aa3(3).
-						aa3_set(0, new s34().
+					set_aa1(new s32[] {
+						new s32().
+							set_c((byte)45),
+						new s32().
+							set_c((byte)53)
+					}).
+					set_aa2(new s33[] {
+						new s33().
+							set_u(4545452)
+					}).
+					set_aa3(new s34[] {
+						new s34().
 							set_u1(4657432).
 							set_u2(-876843).
 							set_ss1(new s33().
 								set_u(-87684)).
-							set_u3(-8768)).
-						aa3_set(1, new s34().
+							set_u3(-8768),
+						new s34().
 							set_u1(67894352).
 							set_u2(5465452).
 							set_ss1(new s33().
 								set_u(-8764)).
-							set_u3(-878)).
-						aa3_set(2, new s34().
+							set_u3(-878),
+						new s34().
 							set_u1(-68584352).
 							set_u2(3635622).
 							set_ss1(new s33().
 								set_u(-864)).
-							set_u3(-88));
+							set_u3(-88),
+					});
 				{
 					s35 so = repack(si._type_idx_, si, 61, big);
 					_check(so.f == si.f);
