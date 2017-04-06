@@ -33,7 +33,7 @@ $(call MULTI_TARGET,$(GENERATED),$(BIN_DIR)/bbcompc$(EXE_SUFFIX) example2.sd,$$(
   2,$$^)) -c$(call ospath,$(word 1,$(GENERATED))) -h$(call ospath,$(word 2,$(GENERATED))))
 
 # specify which variant of memstack static library is needed for built test executable
-# append directory containing common headers to INCLUDE variable
+# append directory containing common headers to SYSINCLUDE variable
 NEED_LIBMEMSTACK := EXE LIB $(lastword $(EXE))
 USE := memstack.mk cmn_headers.mk
 
