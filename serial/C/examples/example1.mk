@@ -32,7 +32,7 @@ $(call ADD_GENERATED,$(GENERATED))
 $(call MULTI_TARGET,$(GENERATED),$(BIN_DIR)/bbcompc$(EXE_SUFFIX) example1.sd,$$(call ospath,$$<) -s$$(call ospath,$$(word \
   2,$$^)) -c$(call ospath,$(word 1,$(GENERATED))) -h$(call ospath,$(word 2,$(GENERATED))))
 
-# append directory containing common headers to INCLUDE variable
+# append directory containing common headers to SYSINCLUDE variable
 USE := cmn_headers.mk
 
 # specify that built EXE must be tested
