@@ -14,6 +14,8 @@
 #include "jcompiler.h"
 #include "model.h"
 
+#define MAX_FIXED_ARRAY_INITIALIZERS 20
+
 #define WHL while ((void)0,0)
 #define FP(s)                                             do {if (file) fputs(s,file);} WHL
 #define FR1(s,a1)                                         do {if (file) fprintf(file,s,a1);} WHL
@@ -146,13 +148,13 @@ static void print_structure_fields(const struct struct_def *s, FILE *file)
 							"\n\t\t}",
 							(*f)->name, field_type, (*f)->name, (*f)->name, (*f)->name, (*f)->name,
 							s->s_name, (*f)->name, field_type, (*f)->name, (*f)->name, (*f)->name);
-						FR5("\n\t\t/** allocate and set new value of array {@link #%s}"
+						FR7("\n\t\t/** allocate and set new value of array {@link #%s}"
 							"\n\t\t * @param length_ length of allocated array"
-							"\n\t\t * @return this */"
-							"\n\t\tpublic %s new_%s(int length_) {"
+							"\n\t\t * @return new value of array {@link #%s} */"
+							"\n\t\tpublic %s[] new_%s(int length_) {"
 							"\n\t\t\t%s = new %s[length_];"
-							"\n\t\t\treturn this;"
-							"\n\t\t}", (*f)->name, s->s_name, (*f)->name, (*f)->name, field_type);
+							"\n\t\t\treturn %s;"
+							"\n\t\t}", (*f)->name, (*f)->name, field_type, (*f)->name, (*f)->name, field_type, (*f)->name);
 						FR5("\n\t\t/** @param idx_ index in array {@link #%s}"
 							"\n\t\t * @return element of array {@link #%s} at idx_ */"
 							"\n\t\tpublic %s %s_get(int idx_) {"
@@ -186,16 +188,16 @@ static void print_structure_fields(const struct struct_def *s, FILE *file)
 							"\n\t\t}",
 							(*f)->name, (*f)->name, (*f)->name, (*f)->name,
 							s->s_name, (*f)->name, (*f)->name, (*f)->name, (*f)->name, (*f)->name, (*f)->name, (*f)->name);
-						FR10("\n\t\t/** allocate and set new values of bits array {@link #%s} and {@link #%s_bit_count}"
+						FR11("\n\t\t/** allocate and set new values of bits array {@link #%s} and {@link #%s_bit_count}"
 							"\n\t\t * @param %s_bit_count_ bits capacity of allocated bits array"
-							"\n\t\t * @return this */"
-							"\n\t\tpublic %s new_%s(int %s_bit_count_) {"
+							"\n\t\t * @return new value of bits array {@link #%s} */"
+							"\n\t\tpublic byte[] new_%s(int %s_bit_count_) {"
 							"\n\t\t\t%s = new byte[bridge_bit_array_size(%s_bit_count_)];"
 							"\n\t\t\t%s_bit_count = %s_bit_count_;"
-							"\n\t\t\treturn this;"
+							"\n\t\t\treturn %s;"
 							"\n\t\t}",
-							(*f)->name, (*f)->name, (*f)->name,
-							s->s_name, (*f)->name, (*f)->name, (*f)->name, (*f)->name, (*f)->name, (*f)->name);
+							(*f)->name, (*f)->name, (*f)->name, (*f)->name,
+							(*f)->name, (*f)->name, (*f)->name, (*f)->name, (*f)->name, (*f)->name, (*f)->name);
 						FR3("\n\t\t/** @param bit_number bit to check in bits array{@link #%s}"
 							"\n\t\t * @return true if bit is set, false - otherwise */"
 							"\n\t\tpublic boolean %s_get_bit(int bit_number) {"
@@ -242,14 +244,15 @@ _required_user_type:
 								(*f)->name, (F_OPTIONAL == (*f)->f_power) ? "optional (may be null)" : "required (must be != null)",
 								(*f)->name, s->s_name, (*f)->name, (*f)->type, (*f)->name,
 								(F_OPTIONAL == (*f)->f_power) ? "null?" : "!=null", (*f)->name, (*f)->name);
-							FR6("\n\t\t/** allocate and set new value of %s reference {@link #%s}"
-								"\n\t\t * @return this */"
+							FR9("\n\t\t/** allocate and set new value of %s reference {@link #%s}"
+								"\n\t\t * @return new value of %s reference {@link #%s} */"
 								"\n\t\tpublic %s new_%s() {"
 								"\n\t\t\t%s = new %s();"
-								"\n\t\t\treturn this;"
+								"\n\t\t\treturn %s;"
 								"\n\t\t}",
-								(F_OPTIONAL == (*f)->f_power) ? "optional" : "required",
-								(*f)->name, s->s_name, (*f)->name, (*f)->name, (*f)->type);
+								(F_OPTIONAL == (*f)->f_power) ? "optional" : "required", (*f)->name,
+								(F_OPTIONAL == (*f)->f_power) ? "optional" : "required", (*f)->name,
+								(*f)->type, (*f)->name, (*f)->name, (*f)->type, (*f)->name);
 						}
 						break;
 					}
@@ -376,13 +379,39 @@ _required_user_type:
 							"\n\t\t\treturn this;"
 							"\n\t\t}",
 							(*f)->name, (*f)->name, (*f)->name, s->s_name, (*f)->name, field_type, pwr, (*f)->name, (*f)->name, (*f)->name);
-						FR7("\n\t\t/** allocate and set new value of {@link #%s} - fixed-sized array of {@link #%s_length_} elements"
-							"\n\t\t * @return this */"
-							"\n\t\tpublic %s new_%s() {"
+						FR9("\n\t\t/** allocate and set new value of {@link #%s} - fixed-sized array of {@link #%s_length_} elements"
+							"\n\t\t * @return new value of {@link #%s} */"
+							"\n\t\tpublic %s[] new_%s() {"
 							"\n\t\t\t%s = new %s[%u];"
-							"\n\t\t\treturn this;"
-							"\n\t\t}", (*f)->name, (*f)->name, s->s_name, (*f)->name, (*f)->name, field_type, pwr);
+							"\n\t\t\treturn %s;"
+							"\n\t\t}", (*f)->name, (*f)->name, (*f)->name, field_type, (*f)->name, (*f)->name, field_type, pwr, (*f)->name);
 						if (pwr > 1) {
+							if (pwr <= MAX_FIXED_ARRAY_INITIALIZERS) {
+								FR2("\n\t\t/** allocate and set new value of {@link #%s} "
+									"- fixed-sized array of {@link #%s_length_} elements", (*f)->name, (*f)->name);
+								{
+									unsigned i = 0;
+									for (; i < pwr; i++)
+										FR2("\n\t\t * @param v%u element to put into newly allocated array at %u position", i, i);
+								}
+								FR3("\n\t\t * @return new value of {@link #%s} */"
+									"\n\t\tpublic %s[] new_%s", (*f)->name, field_type, (*f)->name);
+								{
+									unsigned i = 0;
+									for (; i < pwr; i++)
+										FR3("%c\n\t\t\t%s v%u", 0 == i ? '(' : ',', field_type, i);
+								}
+								FR2("\n\t\t) {"
+									"\n\t\t\t%s = new %s[] ", (*f)->name, field_type);
+								{
+									unsigned i = 0;
+									for (; i < pwr; i++)
+										FR2("%cv%u", 0 == i ? '{' : ',', i);
+								}
+								FR1("};"
+									"\n\t\t\treturn %s;"
+									"\n\t\t}", (*f)->name);
+							}
 							FR7("\n\t\t/** @param idx_ index in fixed-sized array {@link #%s}, must be in range [0..{@link #%s_length_})"
 								"\n\t\t * @return element of {@link #%s} array at idx_ */"
 								"\n\t\tpublic %s %s_get(int idx_/*[0..%u)*/) {"
@@ -397,6 +426,14 @@ _required_user_type:
 								"\n\t\t}", (*f)->name, (*f)->name, (*f)->name, s->s_name, (*f)->name, pwr, field_type, (*f)->name);
 						}
 						else {
+							FR9("\n\t\t/** allocate and set new value of {@link #%s} - fixed-sized array of {@link #%s_length_} elements"
+								"\n\t\t * @param v_ element to put into newly allocated one-sized array"
+								"\n\t\t * @return new value of {@link #%s} */"
+								"\n\t\tpublic %s[] new_%s(%s v_) {"
+								"\n\t\t\t%s = new %s[] {v_};"
+								"\n\t\t\treturn %s;"
+								"\n\t\t}",
+								(*f)->name, (*f)->name, (*f)->name, field_type, (*f)->name, field_type, (*f)->name, field_type, (*f)->name);
 							FR4("\n\t\t/** @return element of one-sized array {@link #%s} */"
 								"\n\t\tpublic %s %s_get() {"
 								"\n\t\t\treturn %s[0];"
@@ -425,13 +462,13 @@ _required_user_type:
 							"\n\t\t\treturn this;"
 							"\n\t\t}",
 							(*f)->name, (*f)->name, (*f)->name, (*f)->name, s->s_name, (*f)->name, bb, (*f)->name, (*f)->name, (*f)->name);
-						FR7("\n\t\t/** allocate and set new value of {@link #%s} - "
+						FR8("\n\t\t/** allocate and set new value of {@link #%s} - "
 							"fixed-sized array of {@link #%s_bit_count_} bits ({@link #%s_length_} bytes)"
-							"\n\t\t * @return this */"
-							"\n\t\tpublic %s new_%s() {"
+							"\n\t\t * @return new value of {@link #%s} */"
+							"\n\t\tpublic byte[] new_%s() {"
 							"\n\t\t\t%s = new byte[%u];"
-							"\n\t\t\treturn this;"
-							"\n\t\t}", (*f)->name, (*f)->name, (*f)->name, s->s_name, (*f)->name, (*f)->name, bb);
+							"\n\t\t\treturn %s;"
+							"\n\t\t}", (*f)->name, (*f)->name, (*f)->name, (*f)->name, (*f)->name, (*f)->name, bb, (*f)->name);
 						FR5("\n\t\t/** @param bit_number bit to check in fixed-sized bits array {@link #%s}, "
 							"must be in range [0..{@link #%s_bit_count_})"
 							"\n\t\t * @return true if bit is set, false - otherwise */"
