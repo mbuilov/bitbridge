@@ -387,15 +387,15 @@ _required_user_type:
 							"\n\t\t}", (*f)->name, (*f)->name, (*f)->name, field_type, (*f)->name, (*f)->name, field_type, pwr, (*f)->name);
 						if (pwr > 1) {
 							if (pwr <= MAX_FIXED_ARRAY_INITIALIZERS) {
-								FR2("\n\t\t/** allocate and set new value of {@link #%s} "
+								FR2("\n\t\t/** allocate, initialize and set new value of {@link #%s} "
 									"- fixed-sized array of {@link #%s_length_} elements", (*f)->name, (*f)->name);
 								{
 									unsigned i = 0;
 									for (; i < pwr; i++)
 										FR2("\n\t\t * @param v%u element to put into newly allocated array at %u position", i, i);
 								}
-								FR3("\n\t\t * @return new value of {@link #%s} */"
-									"\n\t\tpublic %s[] new_%s", (*f)->name, field_type, (*f)->name);
+								FR2("\n\t\t * @return this */"
+									"\n\t\tpublic %s set_%s", s->s_name, (*f)->name);
 								{
 									unsigned i = 0;
 									for (; i < pwr; i++)
@@ -408,9 +408,9 @@ _required_user_type:
 									for (; i < pwr; i++)
 										FR2("%cv%u", 0 == i ? '{' : ',', i);
 								}
-								FR1("};"
-									"\n\t\t\treturn %s;"
-									"\n\t\t}", (*f)->name);
+								FP("};"
+									"\n\t\t\treturn this;"
+									"\n\t\t}");
 							}
 							FR7("\n\t\t/** @param idx_ index in fixed-sized array {@link #%s}, must be in range [0..{@link #%s_length_})"
 								"\n\t\t * @return element of {@link #%s} array at idx_ */"
@@ -426,14 +426,14 @@ _required_user_type:
 								"\n\t\t}", (*f)->name, (*f)->name, (*f)->name, s->s_name, (*f)->name, pwr, field_type, (*f)->name);
 						}
 						else {
-							FR9("\n\t\t/** allocate and set new value of {@link #%s} - fixed-sized array of {@link #%s_length_} elements"
+							FR7("\n\t\t/** allocate, initiaize and set new value of {@link #%s} "
+								"- fixed-sized array of {@link #%s_length_} elements"
 								"\n\t\t * @param v_ element to put into newly allocated one-sized array"
-								"\n\t\t * @return new value of {@link #%s} */"
-								"\n\t\tpublic %s[] new_%s(%s v_) {"
+								"\n\t\t * @return this */"
+								"\n\t\tpublic %s set_%s(%s v_) {"
 								"\n\t\t\t%s = new %s[] {v_};"
-								"\n\t\t\treturn %s;"
-								"\n\t\t}",
-								(*f)->name, (*f)->name, (*f)->name, field_type, (*f)->name, field_type, (*f)->name, field_type, (*f)->name);
+								"\n\t\t\treturn this;"
+								"\n\t\t}", (*f)->name, (*f)->name, s->s_name, (*f)->name, field_type, (*f)->name, field_type);
 							FR4("\n\t\t/** @return element of one-sized array {@link #%s} */"
 								"\n\t\tpublic %s %s_get() {"
 								"\n\t\t\treturn %s[0];"
