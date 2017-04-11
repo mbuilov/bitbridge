@@ -316,8 +316,15 @@ static inline void _bridge_memzero(A_Notnull void *mem, A_In_range(>,0) size_t s
 A_Nonnull_all_args
 static inline void _bridge_nonnull(A_Notnull void *s)
 {
+#if defined __GNUC__ && __GNUC__ >= 6
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wnonnull-compare"
+#endif
 	BRIDGE_ASSERT(s);
 	(void)s;
+#if defined __GNUC__ && __GNUC__ >= 6
+#pragma GCC diagnostic pop
+#endif
 }
 
 /* check that pointers are non-NULL */
