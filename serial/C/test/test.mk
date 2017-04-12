@@ -35,8 +35,8 @@ endif
 RPATH     = $(MEMSTACK_LIBDIR) $(LIB_DIR)
 NEED_LIBMEMSTACK := EXE IMP $(lastword $(EXE))
 USE      := memstack.mk cmn_headers.mk
-$(call DO_TEST_EXE,$(DLLS:=.$(call ver_major,$(PRODUCT_VER))),,$(call \
-  ospath,$(LIB_DIR))$(PATHSEP)$(subst ?, ,$(call ospath,$(MEMSTACK_DLLDIR))))
+$(call DO_TEST_EXE,$(DLLS:=.$(call ver_major,$(PRODUCT_VER))),,$(if $(NO_RPATH),$(call \
+  ospath,$(LIB_DIR))$(PATHSEP)$(subst ?, ,$(call ospath,$(MEMSTACK_DLLDIR)))))
 endif
 
 $(DEFINE_TARGETS)
