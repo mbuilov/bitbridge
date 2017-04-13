@@ -2585,5 +2585,219 @@ public class TestFn1 {
 		}
 		_end();
 
+		_start();
+		{
+			sA2 si = new sA2();
+			{
+				_check(null == si.ob2);
+				si.m = 13;
+			}
+			{
+				sA2 so = repack(si._type_idx_, si, 6, big);
+				{
+					_check(so.m == si.m && so.m == 13);
+					_check(null == so.ob2);
+				}
+			}
+			{
+				si.ob2 = new sB2();
+				_check(null == si.ob2.n);
+				_check(null == si.ob2.oa2);
+				{
+					sA2 so = repack(si._type_idx_, si, 7, big);
+					{
+						_check(null != so.ob2);
+						_check(null != so.ob2.n);
+						_check(so.ob2.n.isEmpty());
+						_check(null == so.ob2.oa2);
+					}
+				}
+			}
+			{
+				si.ob2.n = "sss";
+				{
+					sA2 so = repack(si._type_idx_, si, 11, big);
+					{
+						_check(null != so.ob2);
+						_check(null != so.ob2.n);
+						_check(so.ob2.n.equals("sss"));
+						_check(null == so.ob2.oa2);
+					}
+				}
+			}
+			{
+				si.ob2.oa2 = new sA2();
+				_check(null == si.ob2.oa2.ob2);
+				si.ob2.oa2.m = 3;
+				{
+					sA2 so = repack(si._type_idx_, si, 15, big);
+					{
+						_check(null != so.ob2);
+						_check(null != so.ob2.n);
+						_check(so.ob2.n.equals("sss"));
+						_check(null != so.ob2.oa2);
+						_check(so.ob2.oa2.m == si.ob2.oa2.m && so.ob2.oa2.m == 3);
+						_check(null == so.ob2.oa2.ob2);
+					}
+				}
+			}
+			{
+				si.ob2.oa2.ob2 = new sB2();
+				_check(null == si.ob2.oa2.ob2.n);
+				_check(null == si.ob2.oa2.ob2.oa2);
+				{
+					sA2 so = repack(si._type_idx_, si, 16, big);
+					{
+						_check(null != so.ob2);
+						_check(null != so.ob2.n);
+						_check(so.ob2.n.equals("sss"));
+						_check(null != so.ob2.oa2);
+						_check(so.ob2.oa2.m == si.ob2.oa2.m && so.ob2.oa2.m == 3);
+						_check(null != so.ob2.oa2.ob2);
+						_check(null != so.ob2.oa2.ob2.n);
+						_check(so.ob2.oa2.ob2.n.isEmpty());
+						_check(null == so.ob2.oa2.ob2.oa2);
+					}
+				}
+			}
+			{
+				si.ob2.oa2.ob2.n = "ddd";
+				{
+					sA2 so = repack(si._type_idx_, si, 20, big);
+					{
+						_check(null != so.ob2);
+						_check(null != so.ob2.n);
+						_check(so.ob2.n.equals("sss"));
+						_check(null != so.ob2.oa2);
+						_check(so.ob2.oa2.m == si.ob2.oa2.m && so.ob2.oa2.m == 3);
+						_check(null != so.ob2.oa2.ob2);
+						_check(null != so.ob2.oa2.ob2.n);
+						_check(so.ob2.oa2.ob2.n.equals("ddd"));
+						_check(null == so.ob2.oa2.ob2.oa2);
+					}
+				}
+			}
+			{
+				si.ob2.oa2.ob2.oa2 = new sA2();
+				_check(null == si.ob2.oa2.ob2.oa2.ob2);
+				si.ob2.oa2.ob2.oa2.m = 7;
+				{
+					sA2 so = repack(si._type_idx_, si, 24, big);
+					{
+						_check(null != so.ob2);
+						_check(null != so.ob2.n);
+						_check(so.ob2.n.equals("sss"));
+						_check(null != so.ob2.oa2);
+						_check(so.ob2.oa2.m == si.ob2.oa2.m && so.ob2.oa2.m == 3);
+						_check(null != so.ob2.oa2.ob2);
+						_check(null != so.ob2.oa2.ob2.n);
+						_check(so.ob2.oa2.ob2.n.equals("ddd"));
+						_check(null != so.ob2.oa2.ob2.oa2);
+						_check(so.ob2.oa2.ob2.oa2.m == si.ob2.oa2.ob2.oa2.m && so.ob2.oa2.ob2.oa2.m == 7);
+						_check(null == so.ob2.oa2.ob2.oa2.ob2);
+					}
+				}
+			}
+		}
+		_end();
+
+		_start();
+		{
+			sB2 si = new sB2();
+			{
+				_check(null == si.n);
+				_check(null == si.oa2);
+				{
+					sB2 so = repack(si._type_idx_, si, 3, big);
+					{
+						_check(null != so.n);
+						_check(so.n.isEmpty());
+						_check(null == so.oa2);
+					}
+				}
+			}
+			{
+				si.n = "sss";
+				{
+					sB2 so = repack(si._type_idx_, si, 7, big);
+					{
+						_check(null != so.n);
+						_check(so.n.equals("sss"));
+						_check(null == so.oa2);
+					}
+				}
+			}
+			{
+				si.oa2 = new sA2();
+				_check(null == si.oa2.ob2);
+				si.oa2.m = 3;
+				{
+					sB2 so = repack(si._type_idx_, si, 11, big);
+					{
+						_check(null != so.n);
+						_check(so.n.equals("sss"));
+						_check(null != so.oa2);
+						_check(so.oa2.m == si.oa2.m && so.oa2.m == 3);
+						_check(null == so.oa2.ob2);
+					}
+				}
+			}
+			{
+				si.oa2.ob2 = new sB2();
+				_check(null == si.oa2.ob2.n);
+				_check(null == si.oa2.ob2.oa2);
+				{
+					sB2 so = repack(si._type_idx_, si, 12, big);
+					{
+						_check(null != so.n);
+						_check(so.n.equals("sss"));
+						_check(null != so.oa2);
+						_check(so.oa2.m == si.oa2.m && so.oa2.m == 3);
+						_check(null != so.oa2.ob2);
+						_check(null != so.oa2.ob2.n);
+						_check(so.oa2.ob2.n.isEmpty());
+						_check(null == so.oa2.ob2.oa2);
+					}
+				}
+			}
+			{
+				si.oa2.ob2.n = "ddd";
+				{
+					sB2 so = repack(si._type_idx_, si, 16, big);
+					{
+						_check(null != so.n);
+						_check(so.n.equals("sss"));
+						_check(null != so.oa2);
+						_check(so.oa2.m == si.oa2.m && so.oa2.m == 3);
+						_check(null != so.oa2.ob2);
+						_check(null != so.oa2.ob2.n);
+						_check(so.oa2.ob2.n.equals("ddd"));
+						_check(null == so.oa2.ob2.oa2);
+					}
+				}
+			}
+			{
+				si.oa2.ob2.oa2 = new sA2();
+				_check(null == si.oa2.ob2.oa2.ob2);
+				si.oa2.ob2.oa2.m = 7;
+				{
+					sB2 so = repack(si._type_idx_, si, 20, big);
+					{
+						_check(null != so.n);
+						_check(so.n.equals("sss"));
+						_check(null != so.oa2);
+						_check(so.oa2.m == si.oa2.m && so.oa2.m == 3);
+						_check(null != so.oa2.ob2);
+						_check(null != so.oa2.ob2.n);
+						_check(so.oa2.ob2.n.equals("ddd"));
+						_check(null != so.oa2.ob2.oa2);
+						_check(so.oa2.ob2.oa2.m == si.oa2.ob2.oa2.m && so.oa2.ob2.oa2.m == 7);
+						_check(null == so.oa2.ob2.oa2.ob2);
+					}
+				}
+			}
+		}
+		_end();
+
 	}
 }

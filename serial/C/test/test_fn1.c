@@ -3038,6 +3038,194 @@ int test_fn1(
 	}
 	__END__
 
+	__START__
+	{
+		RENEW(sA2);
+		{
+			__CHK__(!si->ob2);
+			si->m = 13;
+			CREPACK(sA2, 6);
+			__CHK__(so->m == si->m && so->m == 13);
+			__CHK__(!so->ob2);
+			sA2_ac_delete(so, uc.ui.ac);
+		}
+		{
+			__CHK__(sA2_new_ob2(si));
+			__CHK__(si->ob2);
+			__CHK__(!si->ob2->n);
+			__CHK__(!si->ob2->oa2);
+			CREPACK(sA2, 7);
+			__CHK__(so->ob2);
+			__CHK__(so->ob2->n);
+			__CHK__('\0' == *so->ob2->n);
+			__CHK__(!so->ob2->oa2);
+			sA2_ac_delete(so, uc.ui.ac);
+		}
+		{
+			si->ob2->n = bridge_ref_str_const("sss");
+			__CHK__(si->ob2->n);
+			CREPACK(sA2, 11);
+			__CHK__(so->ob2);
+			__CHK__(so->ob2->n);
+			__CHK__(!strcmp(so->ob2->n, "sss"));
+			__CHK__(!so->ob2->oa2);
+			sA2_ac_delete(so, uc.ui.ac);
+		}
+		{
+			__CHK__(sB2_new_oa2(si->ob2));
+			__CHK__(si->ob2->oa2);
+			__CHK__(!si->ob2->oa2->ob2);
+			si->ob2->oa2->m = 3;
+			CREPACK(sA2, 15);
+			__CHK__(so->ob2);
+			__CHK__(so->ob2->n);
+			__CHK__(!strcmp(so->ob2->n, "sss"));
+			__CHK__(so->ob2->oa2);
+			__CHK__(so->ob2->oa2->m == si->ob2->oa2->m && so->ob2->oa2->m == 3);
+			__CHK__(!so->ob2->oa2->ob2);
+			sA2_ac_delete(so, uc.ui.ac);
+		}
+		{
+			__CHK__(sA2_new_ob2(si->ob2->oa2));
+			__CHK__(si->ob2->oa2->ob2);
+			__CHK__(!si->ob2->oa2->ob2->n);
+			__CHK__(!si->ob2->oa2->ob2->oa2);
+			CREPACK(sA2, 16);
+			__CHK__(so->ob2);
+			__CHK__(so->ob2->n);
+			__CHK__(!strcmp(so->ob2->n, "sss"));
+			__CHK__(so->ob2->oa2);
+			__CHK__(so->ob2->oa2->m == si->ob2->oa2->m && so->ob2->oa2->m == 3);
+			__CHK__(so->ob2->oa2->ob2);
+			__CHK__(so->ob2->oa2->ob2->n);
+			__CHK__('\0' == *so->ob2->oa2->ob2->n);
+			__CHK__(!so->ob2->oa2->ob2->oa2);
+			sA2_ac_delete(so, uc.ui.ac);
+		}
+		{
+			si->ob2->oa2->ob2->n = bridge_ref_str_const("ddd");
+			__CHK__(si->ob2->oa2->ob2->n);
+			CREPACK(sA2, 20);
+			__CHK__(so->ob2);
+			__CHK__(so->ob2->n);
+			__CHK__(!strcmp(so->ob2->n, "sss"));
+			__CHK__(so->ob2->oa2);
+			__CHK__(so->ob2->oa2->m == si->ob2->oa2->m && so->ob2->oa2->m == 3);
+			__CHK__(so->ob2->oa2->ob2);
+			__CHK__(so->ob2->oa2->ob2->n);
+			__CHK__(!strcmp(so->ob2->oa2->ob2->n, "ddd"));
+			__CHK__(!so->ob2->oa2->ob2->oa2);
+			sA2_ac_delete(so, uc.ui.ac);
+		}
+		{
+			__CHK__(sB2_new_oa2(si->ob2->oa2->ob2));
+			__CHK__(si->ob2->oa2->ob2->oa2);
+			__CHK__(!si->ob2->oa2->ob2->oa2->ob2);
+			si->ob2->oa2->ob2->oa2->m = 7;
+			CREPACK(sA2, 24);
+			__CHK__(so->ob2);
+			__CHK__(so->ob2->n);
+			__CHK__(!strcmp(so->ob2->n, "sss"));
+			__CHK__(so->ob2->oa2);
+			__CHK__(so->ob2->oa2->m == si->ob2->oa2->m && so->ob2->oa2->m == 3);
+			__CHK__(so->ob2->oa2->ob2);
+			__CHK__(so->ob2->oa2->ob2->n);
+			__CHK__(!strcmp(so->ob2->oa2->ob2->n, "ddd"));
+			__CHK__(so->ob2->oa2->ob2->oa2);
+			__CHK__(so->ob2->oa2->ob2->oa2->m == si->ob2->oa2->ob2->oa2->m && so->ob2->oa2->ob2->oa2->m == 7);
+			__CHK__(!so->ob2->oa2->ob2->oa2->ob2);
+			sA2_ac_delete(so, uc.ui.ac);
+		}
+		sA2_delete(si);
+	}
+	__END__
+
+	__START__
+	{
+		RENEW(sB2);
+		{
+			__CHK__(!si->n);
+			__CHK__(!si->oa2);
+			CREPACK(sB2, 3);
+			__CHK__(so->n);
+			__CHK__('\0' == *so->n);
+			__CHK__(!so->oa2);
+			sB2_ac_delete(so, uc.ui.ac);
+		}
+		{
+			si->n = bridge_ref_str_const("sss");
+			__CHK__(si->n);
+			CREPACK(sB2, 7);
+			__CHK__(so->n);
+			__CHK__(!strcmp(so->n, "sss"));
+			__CHK__(!so->oa2);
+			sB2_ac_delete(so, uc.ui.ac);
+		}
+		{
+			__CHK__(sB2_new_oa2(si));
+			__CHK__(si->oa2);
+			__CHK__(!si->oa2->ob2);
+			si->oa2->m = 3;
+			CREPACK(sB2, 11);
+			__CHK__(so->n);
+			__CHK__(!strcmp(so->n, "sss"));
+			__CHK__(so->oa2);
+			__CHK__(so->oa2->m == si->oa2->m && so->oa2->m == 3);
+			__CHK__(!so->oa2->ob2);
+			sB2_ac_delete(so, uc.ui.ac);
+		}
+		{
+			__CHK__(sA2_new_ob2(si->oa2));
+			__CHK__(si->oa2->ob2);
+			__CHK__(!si->oa2->ob2->n);
+			__CHK__(!si->oa2->ob2->oa2);
+			CREPACK(sB2, 12);
+			__CHK__(so->n);
+			__CHK__(!strcmp(so->n, "sss"));
+			__CHK__(so->oa2);
+			__CHK__(so->oa2->m == si->oa2->m && so->oa2->m == 3);
+			__CHK__(so->oa2->ob2);
+			__CHK__(so->oa2->ob2->n);
+			__CHK__('\0' == *so->oa2->ob2->n);
+			__CHK__(!so->oa2->ob2->oa2);
+			sB2_ac_delete(so, uc.ui.ac);
+		}
+		{
+			si->oa2->ob2->n = bridge_ref_str_const("ddd");
+			__CHK__(si->oa2->ob2->n);
+			CREPACK(sB2, 16);
+			__CHK__(so->n);
+			__CHK__(!strcmp(so->n, "sss"));
+			__CHK__(so->oa2);
+			__CHK__(so->oa2->m == si->oa2->m && so->oa2->m == 3);
+			__CHK__(so->oa2->ob2);
+			__CHK__(so->oa2->ob2->n);
+			__CHK__(!strcmp(so->oa2->ob2->n, "ddd"));
+			__CHK__(!so->oa2->ob2->oa2);
+			sB2_ac_delete(so, uc.ui.ac);
+		}
+		{
+			__CHK__(sB2_new_oa2(si->oa2->ob2));
+			__CHK__(si->oa2->ob2->oa2);
+			__CHK__(!si->oa2->ob2->oa2->ob2);
+			si->oa2->ob2->oa2->m = 7;
+			CREPACK(sB2, 20);
+			__CHK__(so->n);
+			__CHK__(!strcmp(so->n, "sss"));
+			__CHK__(so->oa2);
+			__CHK__(so->oa2->m == si->oa2->m && so->oa2->m == 3);
+			__CHK__(so->oa2->ob2);
+			__CHK__(so->oa2->ob2->n);
+			__CHK__(!strcmp(so->oa2->ob2->n, "ddd"));
+			__CHK__(so->oa2->ob2->oa2);
+			__CHK__(so->oa2->ob2->oa2->m == si->oa2->ob2->oa2->m && so->oa2->ob2->oa2->m == 7);
+			__CHK__(!so->oa2->ob2->oa2->ob2);
+			sB2_ac_delete(so, uc.ui.ac);
+		}
+		sB2_delete(si);
+	}
+	__END__
+
 	return 0;
 
 fail:
