@@ -37,7 +37,7 @@ enum CALL_FROM {
 	CALL_FROM_ARRAY,
 	CALL_FROM_FIXED_ARRAY,
 	CALL_FROM_OPTIONAL,
-	CALL_FROM_STATIC,
+	CALL_FROM_STATIC
 };
 
 static void print_call_from(FILE *file, const struct field_def *f, enum CALL_FROM from)
