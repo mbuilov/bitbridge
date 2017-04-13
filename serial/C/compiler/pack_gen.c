@@ -557,9 +557,8 @@ static int switch_var_size(FILE *file, const struct struct_def *s/*!=NULL for ta
 static void generate_code_var_size(FILE *file, const struct struct_def *const s)
 {
 	int returned = 0;
-	int long_loop = 0;
-	if (s->tail_recursive && s->tail_recursive->user_type != s) {
-		long_loop = 1;
+	const int long_loop = (s->tail_recursive && s->tail_recursive->user_type != s);
+	if (long_loop) {
 		FR1("\nenum VAR_%s {", s->s_name);
 		{
 			const struct struct_def *r = s;
@@ -1023,9 +1022,8 @@ static void switch_app_packed(FILE *file, const struct field_def *f, const struc
 
 static void generate_code_app_packed(FILE *file, const struct struct_def *const s)
 {
-	int long_loop = 0;
-	if (s->tail_recursive && s->tail_recursive->user_type != s) {
-		long_loop = 1;
+	const int long_loop = (s->tail_recursive && s->tail_recursive->user_type != s);
+	if (long_loop) {
 		FR1("\nenum APP_%s {", s->s_name);
 		{
 			const struct struct_def *r = s;
@@ -2964,9 +2962,8 @@ _unpack_fixed_simple_type_ptr: /* F_POINTER */
 /* caller have checked required limits, now may unpack the structure */
 static void generate_code_init_unpacked(FILE *file/*NULL if determining marks*/, struct struct_def *const s, int *need_z)
 {
-	int long_loop = 0;
-	if (s->tail_recursive && s->tail_recursive->user_type != s) {
-		long_loop = 1;
+	const int long_loop = (s->tail_recursive && s->tail_recursive->user_type != s);
+	if (long_loop) {
 		FR1("\nenum UNP_%s {", s->s_name);
 		{
 			const struct struct_def *r = s;
