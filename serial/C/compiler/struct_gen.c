@@ -1260,7 +1260,7 @@ static void generate_code_del_struct(FILE *file, const struct struct_def *s, con
 		const struct struct_def *r = s;
 		if (s->tail_recursive) {
 			if (long_loop) {
-				FP("\n\tswitch (d)"
+				FP("\n\tswitch (d) {"
 					"\ndefault:"
 					"\n\tfor (;;) {");
 			}
@@ -1471,7 +1471,7 @@ _delete_user_type_pointer:
 			}
 		} while (r != s);
 		if (long_loop)
-			FP("\n\t}");
+			FP("\n\t}}");
 	}
 	FP("\n\tbridge_allocator_dec_level(ac);"
 		"\n}"

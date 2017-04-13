@@ -582,7 +582,7 @@ static void generate_code_var_size(FILE *file, const struct struct_def *const s)
 	FP("\n{");
 	if (s->tail_recursive) {
 		if (long_loop) {
-			FP("\n\tswitch (t)"
+			FP("\n\tswitch (t) {"
 				"\ndefault:");
 		}
 		FP("\n\tfor (;;) {");
@@ -639,7 +639,9 @@ static void generate_code_var_size(FILE *file, const struct struct_def *const s)
 			}
 		} while (r != s);
 	}
-	if (s->tail_recursive)
+	if (long_loop)
+		FP("\n\t}}");
+	else if (s->tail_recursive)
 		FP("\n\t}");
 	if (!returned) {
 		if (v_bits(s))
@@ -1046,7 +1048,7 @@ static void generate_code_app_packed(FILE *file, const struct struct_def *const 
 	FP("\n{");
 	if (s->tail_recursive) {
 		if (long_loop) {
-			FP("\n\tswitch (t)"
+			FP("\n\tswitch (t) {"
 				"\ndefault:");
 		}
 		FP("\n\tfor (;;) {");
@@ -1090,7 +1092,9 @@ static void generate_code_app_packed(FILE *file, const struct struct_def *const 
 			}
 		} while (r != s);
 	}
-	if (s->tail_recursive)
+	if (long_loop)
+		FP("\n\t}}");
+	else if (s->tail_recursive)
 		FP("\n\t}");
 	if (s->_processed)
 		FP("\n\treturn 1;");
@@ -2993,7 +2997,7 @@ static void generate_code_init_unpacked(FILE *file/*NULL if determining marks*/,
 	}
 	if (s->tail_recursive) {
 		if (long_loop) {
-			FP("\n\tswitch (t)"
+			FP("\n\tswitch (t) {"
 				"\ndefault:");
 		}
 		FP("\n\tfor (;;) {");
@@ -3067,7 +3071,9 @@ static void generate_code_init_unpacked(FILE *file/*NULL if determining marks*/,
 			}
 		} while (r != s);
 	}
-	if (s->tail_recursive)
+	if (long_loop)
+		FP("\n\t}}");
+	else if (s->tail_recursive)
 		FP("\n\t}");
 	if (need_check_init_unpacked_return(s))
 		FP("\n\treturn 0;");
