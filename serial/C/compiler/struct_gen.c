@@ -1279,7 +1279,9 @@ static void generate_code_del_struct(FILE *file, const struct struct_def *s, con
 					continue; /* tail-recursive field will be processed last */
 				switch ((*f)->f_power) {
 					case F_ARRAY:
-						if (mark_valid) {
+						if (f == r->fields)
+							mark_valid = 1; /* to avoid false analyzer warnings */
+						else if (mark_valid) {
 							mark_valid = 0;
 							FR1("\n%s\tA_Mark_ptr_valid(s);", offs);
 						}
@@ -1318,7 +1320,9 @@ static void generate_code_del_struct(FILE *file, const struct struct_def *s, con
 						break;
 					case F_POINTER:
 						if ((*f)->user_type || field_type_bit != (*f)->type) {
-							if (mark_valid) {
+							if (f == r->fields)
+								mark_valid = 1; /* to avoid false analyzer warnings */
+							else if (mark_valid) {
 								mark_valid = 0;
 								FR1("\n%s\tA_Mark_ptr_valid(s);", offs);
 							}
@@ -1372,7 +1376,9 @@ _delete_user_type_pointer:
 						}
 						/* fall through */
 					default:
-						if (mark_valid) {
+						if (f == r->fields)
+							mark_valid = 1; /* to avoid false analyzer warnings */
+						else if (mark_valid) {
 							mark_valid = 0;
 							FR1("\n%s\tA_Mark_ptr_valid(s);", offs);
 						}
@@ -1413,7 +1419,9 @@ _delete_user_type_pointer:
 						break;
 					case F_OPTIONAL:
 						if ((*f)->user_type || is_simple_str_type((*f)->type)) {
-							if (mark_valid) {
+							if (f == r->fields)
+								mark_valid = 1; /* to avoid false analyzer warnings */
+							else if (mark_valid) {
 								mark_valid = 0;
 								FR1("\n%s\tA_Mark_ptr_valid(s);", offs);
 							}
@@ -1426,18 +1434,17 @@ _delete_user_type_pointer:
 						break;
 					case F_REQUIRED:
 						if ((*f)->user_type ? S_DYNAMIC == (*f)->user_type->s_layout : is_simple_str_type((*f)->type)) {
-							if (mark_valid) {
+							if (f == r->fields)
+								mark_valid = 1; /* to avoid false analyzer warnings */
+							else if (mark_valid) {
 								mark_valid = 0;
 								FR1("\n%s\tA_Mark_ptr_valid(s);", offs);
 							}
 							FR3("\n%s\t/* %s: %s */", offs, (*f)->name, (*f)->type);
 						}
 						if ((*f)->user_type) {
-							if (S_DYNAMIC == (*f)->user_type->s_layout) {
+							if (S_DYNAMIC == (*f)->user_type->s_layout)
 								FR3("\n%s\t_%s_ac_destroy(&s->%s, BRIDGE_PASS_ALLOCATOR(ac));", offs, (*f)->type, (*f)->name);
-								if (f == r->fields)
-									mark_valid = 1; /* to avoid false analyzer warnings */
-							}
 						}
 						else if (is_simple_str_type((*f)->type))
 							FR2("\n%s\tac->free_cb(BRIDGE_PASS_ALLOCATOR(ac), s->%s);", offs, (*f)->name);
