@@ -1261,7 +1261,7 @@ static void _generate_code_unpack(FILE *file/*NULL if determining marks*/, struc
 				}
 				{
 					/* bytes_credit & bits_credit are zero if r->tail_recursive is optional, else - may be non-zero */
-    				const char *of = (F_OPTIONAL == r->tail_recursive->f_power) ? long_loop ? "\t\t\t" : "\t\t" : long_loop ? "\t\t" : "\t";
+					const char *of = (F_OPTIONAL == r->tail_recursive->f_power) ? long_loop ? "\t\t\t" : "\t\t" : long_loop ? "\t\t" : "\t";
 					_check_limits_for_user_type(file, r, r->tail_recursive->user_type, &bytes_credit, &bits_credit, blim, of);
 					FR1("\n%s\t\tp = s;", of);
 					if (long_loop && r->tail_recursive->user_type == s)
