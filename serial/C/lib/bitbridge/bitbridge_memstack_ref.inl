@@ -119,7 +119,7 @@ static void *_bridge_memstack_ref_alloc_cb(
 			BRIDGE_ASSERT(BRIDGE_ALLOC_REF_COPY_STRINGZ != at || mem == source);
 			if (!mem) {
 #ifdef BITBRIDGE_DEBUG
-				mem = _memstack_push_(st, sz MEMSTACK_DEBUG_ARGS_PASS);
+				mem = _memstack_push_((st, sz MEMSTACK_DEBUG_ARGS_PASS));
 #else
 				mem = memstack_push(st, sz);
 #endif
