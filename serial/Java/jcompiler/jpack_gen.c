@@ -249,11 +249,10 @@ static int switch_var_size(FILE *file, const struct struct_def *s/*!=NULL for ta
 static void generate_code_var_size(FILE *file, const struct struct_def *const s)
 {
 	int returned = 0;
-	int long_loop = 0;
-	if (s->tail_recursive && s->tail_recursive->user_type != s) {
+	const int long_loop = (s->tail_recursive && s->tail_recursive->user_type != s);
+	if (long_loop) {
 		const char *enum_type = ((size_t)(structs_end - structs) <= 0xFFFFFFFF) ? "int" : "long";
 		const char *enum_suff = ((size_t)(structs_end - structs) <= 0xFFFFFFFF) ? "" : "L";
-		long_loop = 1;
 		{
 			size_t i = 0;
 			const struct struct_def *r = s;
@@ -505,10 +504,9 @@ static void switch_app_packed(FILE *file, const struct field_def *f, const char 
 
 static void generate_code_app_packed(FILE *file, const struct struct_def *const s)
 {
-	int long_loop = 0;
-	if (s->tail_recursive && s->tail_recursive->user_type != s) {
+	const int long_loop = (s->tail_recursive && s->tail_recursive->user_type != s);
+	if (long_loop) {
 		const char *enum_type = ((size_t)(structs_end - structs) <= 0xFFFFFFFF) ? "int" : "long";
-		long_loop = 1;
 		FR3("\n\t@SuppressWarnings(\"fallthrough\")"
 			"\n\tstatic void _%s_app(Object p, %s t, _pk%s info) {",
 			s->s_name, enum_type, _get_packed_info(s));
@@ -1186,10 +1184,9 @@ static void _generate_prototype_unpack(FILE *file, const struct struct_def *s)
 /* caller have checked required limits, now may unpack the structure */
 static void _generate_code_unpack(FILE *file/*NULL if determining marks*/, struct struct_def *s)
 {
-	int long_loop = 0;
-	if (s->tail_recursive && s->tail_recursive->user_type != s) {
+	const int long_loop = (s->tail_recursive && s->tail_recursive->user_type != s);
+	if (long_loop) {
 		const char *enum_type = ((size_t)(structs_end - structs) <= 0xFFFFFFFF) ? "int" : "long";
-		long_loop = 1;
 		FR3("\n\t@SuppressWarnings(\"fallthrough\")"
 			"\n\tstatic Object _%s_unp(%s t, _upk%s info) throws BridgeException {",
 			s->s_name, enum_type, _get_packed_info(s));
