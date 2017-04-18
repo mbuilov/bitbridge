@@ -44,7 +44,7 @@ NEED_LIBMEMSTACK := EXE LIB $(lastword $(EXE))
 USE := memstack.mk cmn_headers.mk
 
 # create necessary simlinks to shared objects to run test executable
-$(call DO_TEST_EXE,$(DLLS:=.$(call ver_major,$(PRODUCT_VER))))
+$(call DO_TEST_EXE,$(DLLS:=.$(call ver_major,$(PRODUCT_VER))),,,PATH=$$(PATH)$(PATHSEP)$(LIB_DIR))
 
 endif # !NO_SHARED
 
