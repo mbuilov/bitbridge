@@ -110,6 +110,7 @@ ifeq (SOLARIS,$(OS))
 #DEF_CFLAGS := -erroff=badargtype2w,wbadasg,wbadinit
 endif
 
+# default value for MODVER
 # major.minor.patch
 PRODUCT_VER := 0.1.0
 
@@ -118,10 +119,10 @@ PRODUCT_VER := 0.1.0
 PRODUCT_NAMES_H := vers.h
 
 # version info for a dll
-VENDOR_NAME           := Michael M. Builov
-VENDOR_URL            := https://github.com/mbuilov/bitbridge
-PRODUCT_NAME          := Another serialization/rpc mechanism
-VENDOR_COPYRIGHT      := Copyright (C) 2008-2017 $(VENDOR_NAME), $(VENDOR_URL)
+VENDOR_NAME      := Michael M. Builov
+VENDOR_URL       := https://github.com/mbuilov/bitbridge
+PRODUCT_NAME     := Another serialization/rpc mechanism
+VENDOR_COPYRIGHT := Copyright (C) 2008-2017 $(VENDOR_NAME), $(VENDOR_URL)
 
 # bitbridge runtime library name
 BITBRIDGE_LIB_NAME ?= bitbridge$(if $(DEBUG),d)
