@@ -57,9 +57,9 @@ static int usage(const char *program)
 		"\n -s<input.sd>  - structures definitions file name"
 		"\n -c<btypes.c>  - generated C-source file name"
 		"\n -h<btypes.h>  - generated C-header file name; if not specified then equals to source file name with replaced extension to '.h'"
-		"\n -m<bmodel.md> - generated model file name, this file will contain meta information about structures"
+		"\n -m<bmodel.md> - generated model file name, this file will contain meta information about parsed structures"
 		"\n -d<decl>      - declaration inserted before each generated non-static function"
-		"\n -n            - don't add auto-prefix char (o,a,r) for optional, array and required array fields"
+		"\n -n            - if specified, then don't add auto-prefix char (o,a,r) for optional, array and required array fields"
 		"\n", compiler_logo, program);
 	return 1;
 }
@@ -68,25 +68,25 @@ int main(int argc, char *argv[])
 {
 	const char *program = argv[0];
 	make_logo();
-	/* <input.sd> must be specified */
+	/* <input.sd> must be specified, other arguments are optional */
 	if (argc < 2)
 		return usage(program);
 	{
 		char *al = NULL;
-		#define opts "schmdn"
+		#define opts "s:c:h:m:d:n "
 		#define in values[0] /* s */
 		#define cs values[1] /* c */
 		#define ch values[2] /* h */
 		#define md values[3] /* m */
 		#define dc values[4] /* d */
 		#define na values[5] /* n */
-		char *values[sizeof(opts) - 1];
+		char *values[6] = {NULL};
 		if ((unsigned)argc > 1/*program name*/ + sizeof(values)/sizeof(values[0])) {
 			fprintf(stderr, "%s: too many arguments\n", program);
 			return 1;
 		}
 		{
-			int i = get_opts(argc, argv, opts, values);
+			int i = get_opts(argc, argv, opts, NULL, values);
 			if (i > 0) {
 				fprintf(stderr, "%s: expecting an option argument started with '-': %s\n", program, argv[i]);
 				return 1;
@@ -105,15 +105,15 @@ int main(int argc, char *argv[])
 			return 1;
 		}
 		if (cs && !cs[0]) {
-			fprintf(stderr, "%s: please specify non-empty generated C-source file name (via -c<btypes.c>)\n", program);
+			fprintf(stderr, "%s: please specify generated C-source file name (via -c<btypes.c>)\n", program);
 			return 1;
 		}
 		if (ch && !ch[0]) {
-			fprintf(stderr, "%s: please specify non-empty generated C-header file name (via -h<btypes.h>)\n", program);
+			fprintf(stderr, "%s: please specify generated C-header file name (via -h<btypes.h>)\n", program);
 			return 1;
 		}
 		if (md && !md[0]) {
-			fprintf(stderr, "%s: please specify non-empty generated model file name (via -m<bmodel.md>)\n", program);
+			fprintf(stderr, "%s: please specify generated model file name (via -m<bmodel.md>)\n", program);
 			return 1;
 		}
 		if (!cs && !md) {
